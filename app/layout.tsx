@@ -22,14 +22,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${firaCode.className} antialiased`}>
+      <body
+        className={`${firaCode.className} antialiased min-h-screen flex flex-col`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="flex-1">{children}</div>
+          <footer className="p-2">
+            <p className="text-center text-sm text-muted-foreground">
+              © {new Date().getFullYear()} Mango. All rights reserved.
+            </p>
+          </footer>
           <div className="fixed bottom-0 right-0 p-4">
             <ModeToggle />
           </div>
