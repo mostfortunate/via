@@ -77,7 +77,7 @@ const QueryParamEntry = () => (
     <div className="flex flex-row items-center gap-2">
       <Input placeholder="Key" />
       <Input placeholder="Value" />
-      <Button className="cursor-pointer" variant="destructive" size="sm">
+      <Button variant="destructive" size="sm">
         Remove
       </Button>
     </div>
