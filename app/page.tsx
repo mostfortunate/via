@@ -30,23 +30,41 @@ type QueryParam = {
   value: string;
 };
 
+type Header = {
+  key: string;
+  value: string;
+};
+
 export default function Home() {
   const [url, setUrl] = useState<string>("");
   const [method, setMethod] = useState<string>("GET");
   const [queryParams, setQueryParams] = useState<QueryParam[]>([]);
+  const [headers, setHeaders] = useState<Header[]>([]);
   const methods = ["GET", "POST", "PUT", "DELETE", "PATCH"];
   const tabs = ["Query Params", "Headers", "JSON"];
 
+  function updateAt<T>(arr: T[], index: number, updates: Partial<T>): T[] {
+    return arr.map((item, i) => (i === index ? { ...item, ...updates } : item));
+  }
+
+  function deleteAt<T>(arr: T[], index: number): T[] {
+    return arr.filter((_, i) => i !== index);
+  }
+
   const updateQueryParam = (index: number, updates: Partial<QueryParam>) => {
-    setQueryParams((prev) => {
-      const next = [...prev];
-      next[index] = { ...next[index], ...updates };
-      return next;
-    });
+    setQueryParams((prev) => updateAt(prev, index, updates));
   };
 
   const deleteQueryParam = (index: number) => {
-    setQueryParams((prev) => prev.filter((_, i) => i !== index));
+    setQueryParams((prev) => deleteAt(prev, index));
+  };
+
+  const updateHeader = (index: number, updates: Partial<Header>) => {
+    setHeaders((prev) => updateAt(prev, index, updates));
+  };
+
+  const deleteHeader = (index: number) => {
+    setHeaders((prev) => deleteAt(prev, index));
   };
 
   return (
@@ -130,6 +148,55 @@ export default function Home() {
                     size="sm"
                     onClick={() =>
                       setQueryParams([...queryParams, { key: "", value: "" }])
+                    }
+                  >
+                    Add
+                  </Button>
+                </CardAction>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+          <TabsContent value="Headers">
+            <Card>
+              <CardHeader>
+                <CardTitle>Headers</CardTitle>
+                <CardDescription>
+                  Add, edit, or remove headers for your request.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-2">
+                {headers.map((header, index) => (
+                  <div key={index} className="flex flex-row items-center gap-2">
+                    <Input
+                      placeholder="Key"
+                      value={header.key}
+                      onChange={(e) =>
+                        updateHeader(index, { key: e.target.value })
+                      }
+                    />
+                    <Input
+                      placeholder="Value"
+                      value={header.value}
+                      onChange={(e) =>
+                        updateHeader(index, { value: e.target.value })
+                      }
+                    />
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => deleteHeader(index)}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+              </CardContent>
+              <CardFooter>
+                <CardAction className="w-full">
+                  <Button
+                    size="sm"
+                    onClick={() =>
+                      setHeaders([...headers, { key: "", value: "" }])
                     }
                   >
                     Add
