@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 
 import {
   Select,
@@ -90,7 +90,7 @@ export default function Home() {
       method: method.toLowerCase(),
       params: keyValueArrayToObject(queryParams),
       headers: keyValueArrayToObject(headers),
-    }).then((response) => {
+    }).then((response: AxiosResponse) => {
       console.log(response);
     });
   };
