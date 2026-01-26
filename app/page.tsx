@@ -44,6 +44,7 @@ export default function Home() {
   const [headers, setHeaders] = useState<Header[]>([]);
   const methods = ["GET", "POST", "PUT", "DELETE", "PATCH"];
   const requestTabs = ["Params", "Headers", "JSON"];
+  const responseTabs = ["Body", "Headers"];
 
   // MARK: Helpers
   function updateAt<T>(arr: T[], index: number, updates: Partial<T>): T[] {
@@ -54,7 +55,9 @@ export default function Home() {
     return arr.filter((_, i) => i !== index);
   }
 
-  function keyValueArrayToObject(arr: { key: string; value: string }[]): Record<string, string> {
+  function keyValueArrayToObject(
+    arr: { key: string; value: string }[],
+  ): Record<string, string> {
     const obj: Record<string, string> = {};
     arr.forEach(({ key, value }) => {
       if (key) {
@@ -62,7 +65,7 @@ export default function Home() {
       }
     });
     return obj;
-  };
+  }
 
   // MARK: Handlers
   const updateQueryParam = (index: number, updates: Partial<QueryParam>) => {
@@ -79,7 +82,7 @@ export default function Home() {
 
   const deleteHeader = (index: number) => {
     setHeaders((prev) => deleteAt(prev, index));
-  };  
+  };
 
   const sendRequest = () => {
     axios({
@@ -223,6 +226,39 @@ export default function Home() {
                     Add
                   </Button>
                 </CardAction>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+        </Tabs>
+
+        <Tabs defaultValue={responseTabs[0]} className="w-full">
+          <TabsList variant="line" className="mb-4 w-full flex items-center">
+            <div>
+              {responseTabs.map((tab) => (
+                <TabsTrigger key={tab} value={tab}>
+                  {tab}
+                </TabsTrigger>
+              ))}
+            </div>
+            <div className="flex gap-4 text-xs font-semibold ml-auto">
+              <span>200 OK</span>
+              <span>515 ms</span>
+              <span>123 B</span>
+            </div>
+          </TabsList>
+          <TabsContent value="Body">
+            <Card>
+              <CardContent className="flex flex-col gap-2"></CardContent>
+              <CardFooter>
+                <CardAction className="w-full"></CardAction>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+          <TabsContent value="Headers">
+            <Card>
+              <CardContent className="flex flex-col gap-2"></CardContent>
+              <CardFooter>
+                <CardAction className="w-full"></CardAction>
               </CardFooter>
             </Card>
           </TabsContent>
