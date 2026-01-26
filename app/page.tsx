@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import axios from "axios";
+
 import {
   Select,
   SelectContent,
@@ -43,6 +45,7 @@ export default function Home() {
   const methods = ["GET", "POST", "PUT", "DELETE", "PATCH"];
   const tabs = ["Query Params", "Headers", "JSON"];
 
+  // MARK: Helpers
   function updateAt<T>(arr: T[], index: number, updates: Partial<T>): T[] {
     return arr.map((item, i) => (i === index ? { ...item, ...updates } : item));
   }
@@ -51,6 +54,17 @@ export default function Home() {
     return arr.filter((_, i) => i !== index);
   }
 
+  function keyValueArrayToObject(arr: { key: string; value: string }[]): Record<string, string> {
+    const obj: Record<string, string> = {};
+    arr.forEach(({ key, value }) => {
+      if (key) {
+        obj[key] = value;
+      }
+    });
+    return obj;
+  };
+
+  // MARK: Handlers
   const updateQueryParam = (index: number, updates: Partial<QueryParam>) => {
     setQueryParams((prev) => updateAt(prev, index, updates));
   };
@@ -65,6 +79,17 @@ export default function Home() {
 
   const deleteHeader = (index: number) => {
     setHeaders((prev) => deleteAt(prev, index));
+  };  
+
+  const sendRequest = () => {
+    axios({
+      url: url,
+      method: method.toLowerCase(),
+      params: keyValueArrayToObject(queryParams),
+      headers: keyValueArrayToObject(headers),
+    }).then((response) => {
+      console.log(response);
+    });
   };
 
   return (
@@ -91,11 +116,7 @@ export default function Home() {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
-          <Button
-            className="font-semibold"
-            type="submit"
-            onClick={() => console.log(url)}
-          >
+          <Button className="font-semibold" type="submit" onClick={sendRequest}>
             Send
           </Button>
         </div>
