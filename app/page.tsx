@@ -30,6 +30,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Input } from "@/components/ui/input";
@@ -279,7 +285,7 @@ export default function Home() {
               <Card>
                 <CardHeader className="flex flex-row justify-between">
                   <div className="flex flex-col gap-3">
-                    <CardTitle>JSON</CardTitle>
+                    <CardTitle>Request Body</CardTitle>
                     <CardDescription>
                       Edit JSON data for your request.
                     </CardDescription>
