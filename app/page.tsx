@@ -243,7 +243,6 @@ export default function Home() {
                 ))}
               </div>
               <div className="flex gap-4 text-xs font-semibold ml-auto">
-                {/* <span>200 OK</span> */}
                 <span>
                   {response.status} {response.statusText}
                 </span>
