@@ -121,8 +121,10 @@ export default function Home() {
       method: method.toLowerCase(),
       params: keyValueArrayToObject(queryParams),
       headers: keyValueArrayToObject(headers),
+      data: requestBody ? JSON.parse(requestBody) : undefined,
     }).then((response: AxiosResponse) => {
       console.log(response);
+      setResponseBody(JSON.stringify(response.data, null, 2));
       setResponse(response);
     });
   };
@@ -324,7 +326,14 @@ export default function Home() {
             </TabsList>
             <TabsContent value="Body">
               <Card>
-                <CardContent className="flex flex-col gap-2"></CardContent>
+                <CardContent className="flex flex-col gap-2">
+                  <CodeMirror
+                    value={responseBody}
+                    extensions={[json(), noFocusOutlineRule]}
+                    editable={false}
+                    theme={resolvedTheme === "dark" ? githubDark : githubLight}
+                  />
+                </CardContent>
                 <CardFooter>
                   <CardAction className="w-full"></CardAction>
                 </CardFooter>
