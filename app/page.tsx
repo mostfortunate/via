@@ -282,7 +282,7 @@ export default function Home() {
                     Edit JSON data for your request.
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="flex flex-col gap-2">
+                <CardContent>
                   <CodeMirror
                     value={requestBody}
                     onChange={onRequestBodyChange}
