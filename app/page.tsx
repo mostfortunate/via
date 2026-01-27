@@ -1,9 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { status } from "http-status";
-import prettyBytes from "pretty-bytes";
+import { json } from "@codemirror/lang-json";
+import { useTheme } from "next-themes";
 import axios, { type AxiosResponse } from "axios";
+import prettyBytes from "pretty-bytes";
+
+import { EditorView } from "@uiw/react-codemirror";
+import { githubLight, githubDark } from "@uiw/codemirror-theme-github";
+import CodeMirror from "@uiw/react-codemirror";
 
 import {
   Select,
@@ -43,11 +49,20 @@ export default function Home() {
   const [url, setUrl] = useState<string>("");
   const [method, setMethod] = useState<string>("GET");
   const [queryParams, setQueryParams] = useState<QueryParam[]>([]);
+  const [requestBody, setRequestBody] = useState<string>("");
+  const [responseBody, setResponseBody] = useState<string>("");
   const [headers, setHeaders] = useState<Header[]>([]);
   const [response, setResponse] = useState<AxiosResponse | null>(null);
   const methods = ["GET", "POST", "PUT", "DELETE", "PATCH"];
   const requestTabs = ["Params", "Headers", "JSON"];
   const responseTabs = ["Body", "Headers"];
+
+  const { resolvedTheme } = useTheme();
+  const noFocusOutlineRule = EditorView.theme({
+    "&.cm-focused": {
+      outline: "none",
+    },
+  });
 
   // MARK: Helpers
   function updateAt<T>(arr: T[], index: number, updates: Partial<T>): T[] {
@@ -93,6 +108,10 @@ export default function Home() {
   const deleteHeader = (index: number) => {
     setHeaders((prev) => deleteAt(prev, index));
   };
+
+  const onRequestBodyChange = useCallback((body: string) => {
+    setRequestBody(body);
+  }, []);
 
   const sendRequest = () => {
     // TODO: add proper validation and error handling and make it async
@@ -262,7 +281,12 @@ export default function Home() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-2">
-                  <></>
+                  <CodeMirror
+                    value={requestBody}
+                    onChange={onRequestBodyChange}
+                    extensions={[json(), noFocusOutlineRule]}
+                    theme={resolvedTheme === "dark" ? githubDark : githubLight}
+                  />
                 </CardContent>
                 <CardFooter>
                   <CardAction className="w-full"></CardAction>
