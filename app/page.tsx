@@ -290,9 +290,6 @@ export default function Home() {
                     theme={resolvedTheme === "dark" ? githubDark : githubLight}
                   />
                 </CardContent>
-                <CardFooter>
-                  <CardAction className="w-full"></CardAction>
-                </CardFooter>
               </Card>
             </TabsContent>
           </TabsContent>
@@ -334,9 +331,6 @@ export default function Home() {
                     theme={resolvedTheme === "dark" ? githubDark : githubLight}
                   />
                 </CardContent>
-                <CardFooter>
-                  <CardAction className="w-full"></CardAction>
-                </CardFooter>
               </Card>
             </TabsContent>
             <TabsContent value="Headers">
@@ -354,9 +348,6 @@ export default function Home() {
                     ),
                   )}
                 </CardContent>
-                <CardFooter>
-                  <CardAction className="w-full"></CardAction>
-                </CardFooter>
               </Card>
             </TabsContent>
           </Tabs>
