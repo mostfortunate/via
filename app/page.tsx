@@ -40,7 +40,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Copy, ClipboardPaste, Trash2 } from "lucide-react";
+import { Copy, ClipboardPaste, Trash2, Trash } from "lucide-react";
 
 type QueryParam = {
   key: string;
@@ -209,10 +209,10 @@ export default function Home() {
                     />
                     <Button
                       variant="destructive"
-                      size="sm"
+                      size="icon"
                       onClick={() => deleteQueryParam(index)}
                     >
-                      Remove
+                      <Trash />
                     </Button>
                   </div>
                 ))}
@@ -258,10 +258,10 @@ export default function Home() {
                     />
                     <Button
                       variant="destructive"
-                      size="sm"
+                      size="icon"
                       onClick={() => deleteHeader(index)}
                     >
-                      Remove
+                      <Trash />
                     </Button>
                   </div>
                 ))}
