@@ -34,6 +34,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Copy, ClipboardPaste, Trash2 } from "lucide-react";
 
 type QueryParam = {
   key: string;
@@ -276,11 +277,35 @@ export default function Home() {
           <TabsContent value="JSON">
             <TabsContent value="JSON">
               <Card>
-                <CardHeader>
-                  <CardTitle>JSON</CardTitle>
-                  <CardDescription>
-                    Edit JSON data for your request.
-                  </CardDescription>
+                <CardHeader className="flex flex-row justify-between">
+                  <div className="flex flex-col gap-3">
+                    <CardTitle>JSON</CardTitle>
+                    <CardDescription>
+                      Edit JSON data for your request.
+                    </CardDescription>
+                  </div>
+                  <div className="flex flex-row gap-2">
+                    <CardAction>
+                      <Button
+                        variant="secondary"
+                        className="hover:bg-muted/90 hover:text-secondary transition-colors"
+                        size="icon-xs"
+                        aria-label="Paste request body"
+                      >
+                        <ClipboardPaste />
+                      </Button>
+                    </CardAction>
+                    <CardAction>
+                      <Button
+                        variant="destructive"
+                        className="hover:bg-muted/90 hover:text-destructive transition-colors"
+                        size="icon-xs"
+                        aria-label="Remove request body"
+                      >
+                        <Trash2 />
+                      </Button>
+                    </CardAction>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <CodeMirror
@@ -323,11 +348,23 @@ export default function Home() {
             </TabsList>
             <TabsContent value="Body">
               <Card>
-                <CardHeader>
-                  <CardTitle>Response Body</CardTitle>
-                  <CardDescription>
-                    View the JSON response body from your request.
-                  </CardDescription>
+                <CardHeader className="flex flex-row justify-between">
+                  <div className="flex flex-col gap-3">
+                    <CardTitle>Response Body</CardTitle>
+                    <CardDescription>
+                      View the JSON response body from your request.
+                    </CardDescription>
+                  </div>
+                  <CardAction>
+                    <Button
+                      variant="secondary"
+                      className="hover:bg-muted/90 hover:text-secondary transition-colors"
+                      size="icon-xs"
+                      aria-label="Copy response body"
+                    >
+                      <Copy />
+                    </Button>
+                  </CardAction>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-2">
                   <CodeMirror
