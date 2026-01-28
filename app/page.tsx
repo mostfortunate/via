@@ -2,12 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { status, type HttpStatus } from "http-status";
-import { json } from "@codemirror/lang-json";
-import { useTheme } from "next-themes";
 import axios, { type AxiosResponse } from "axios";
-
-import { EditorView } from "@uiw/react-codemirror";
-import { githubLight, githubDark } from "@uiw/codemirror-theme-github";
 
 import { HTTPMethod } from "@/app/types/http";
 import RequestForm from "@/components/RequestForm";
@@ -36,18 +31,6 @@ export default function Home() {
   const [headers, setHeaders] = useState<Header[]>([]);
   const [response, setResponse] = useState<AxiosResponse | null>(null);
   const methods: HTTPMethod[] = ["GET", "POST", "PUT", "DELETE", "PATCH"];
-
-  const { resolvedTheme } = useTheme();
-  const noFocusOutlineRule = EditorView.theme({
-    "&.cm-focused": {
-      outline: "none",
-    },
-  });
-
-  const editorConfig = {
-    extensions: [json(), noFocusOutlineRule],
-    theme: resolvedTheme === "dark" ? githubDark : githubLight,
-  };
 
   // MARK: Helpers
   function updateAt<T>(arr: T[], index: number, updates: Partial<T>): T[] {
@@ -170,14 +153,12 @@ export default function Home() {
           setHeaders={setHeaders}
           requestBody={requestBody}
           onRequestBodyChange={onRequestBodyChange}
-          editorConfig={editorConfig}
         />
         {response && (
           <ResponseTabs
             response={response}
             responseBody={responseBody}
             getStatusText={getStatusText}
-            editorSettings={editorConfig}
           />
         )}
       </div>
