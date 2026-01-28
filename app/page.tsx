@@ -19,7 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import {
   Card,
   CardAction,
@@ -29,18 +28,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Copy, ClipboardPaste, Trash2, Trash } from "lucide-react";
+
+import { HTTPMethod } from "@/app/types/http";
+import RequestForm from "@/components/RequestForm";
 
 type QueryParam = {
   key: string;
@@ -52,9 +51,8 @@ type Header = {
   value: string;
 };
 
-type NumericKeys<T> = Extract<keyof T, number>;
-type HttpStatusCode = NumericKeys<HttpStatus>;
-type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+export type NumericKeys<T> = Extract<keyof T, number>;
+export type HttpStatusCode = NumericKeys<HttpStatus>;
 
 export default function Home() {
   const [url, setUrl] = useState<string>("");
@@ -181,31 +179,14 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col gap-4 p-4">
-        <div className="flex flex-row gap-4">
-          <Select>
-            <SelectTrigger className="font-semibold w-full max-w-48">
-              <SelectValue placeholder={method} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {methods.map((m) => (
-                  <SelectItem key={m} value={m} onSelect={() => setMethod(m)}>
-                    {m}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          <Input
-            type="url"
-            placeholder="https://example.com"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
-          <Button className="font-semibold" type="submit" onClick={sendRequest}>
-            Send
-          </Button>
-        </div>
+        <RequestForm
+          url={url}
+          setUrl={setUrl}
+          method={method}
+          setMethod={setMethod}
+          methods={methods}
+          onSend={sendRequest}
+        />
         <Tabs defaultValue={requestTabs[0]} className="w-full">
           <TabsList variant="line" className="mb-4">
             {requestTabs.map((tab) => (
