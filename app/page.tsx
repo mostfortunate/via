@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { status } from "http-status";
+import { status, type HttpStatus } from "http-status";
 import { json } from "@codemirror/lang-json";
 import { useTheme } from "next-themes";
 import axios, { type AxiosResponse } from "axios";
@@ -52,6 +52,8 @@ type Header = {
   value: string;
 };
 
+type NumericKeys<T> = Extract<keyof T, number>;
+type HttpStatusCode = NumericKeys<HttpStatus>;
 type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 export default function Home() {
@@ -103,6 +105,20 @@ export default function Home() {
     response.customData.time =
       new Date().getTime() - response.config.customData.startTime;
     return response;
+  }
+
+  function isHttpStatusCode(code: number): code is HttpStatusCode {
+    return code in status;
+  }
+
+  function getStatusText(res: AxiosResponse): string {
+    if (res.statusText) return res.statusText;
+
+    if (isHttpStatusCode(res.status)) {
+      return status[res.status];
+    }
+
+    return "";
   }
 
   // MARK: Handlers
@@ -366,11 +382,7 @@ export default function Home() {
               </div>
               <div className="flex gap-4 text-xs font-semibold ml-auto">
                 <span>
-                  {response.status}{" "}
-                  {/* definitely need to refactor this, it's confusing, essentially TypeScript is mad that status[response.status] is potentially nil, even though that will not be the case 99.999% of the time - and using the backup "" also doesn't silence it */}
-                  {response.statusText === ""
-                    ? (status as any)[response.status] || ""
-                    : response.statusText}
+                  {response.status} {getStatusText(response)}
                 </span>
                 <span>{response.customData.time} ms</span>
                 <span>
