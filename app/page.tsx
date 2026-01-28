@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { status } from "http-status";
 import { json } from "@codemirror/lang-json";
 import { useTheme } from "next-themes";
@@ -136,15 +136,25 @@ export default function Home() {
     });
   };
 
-  axios.interceptors.request.use((request) => {
-    request.customData = request.customData || {};
-    request.customData.startTime = new Date().getTime();
-    return request;
-  });
+  useEffect(() => {
+    const requestInterceptor = axios.interceptors.request.use((request) => {
+      request.customData = request.customData || {};
+      request.customData.startTime = new Date().getTime();
+      return request;
+    });
 
-  axios.interceptors.response.use(updateEndTime, (e) => {
-    return Promise.reject(updateEndTime(e.response));
-  });
+    const responseInterceptor = axios.interceptors.response.use(
+      updateEndTime,
+      (e) => {
+        return Promise.reject(updateEndTime(e.response));
+      },
+    );
+
+    return () => {
+      axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(responseInterceptor);
+    };
+  }, []);
 
   return (
     <>
