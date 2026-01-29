@@ -46,7 +46,7 @@ const ResponseTabs = ({
 
   return (
     <Tabs defaultValue={responseTabs[0]} className="w-full">
-      <TabsList variant="line" className="mb-4 w-full flex items-center">
+      <TabsList variant="line" className="mb-4 flex w-full items-center">
         <div>
           {responseTabs.map((tab) => (
             <TabsTrigger key={tab} value={tab}>
@@ -54,7 +54,7 @@ const ResponseTabs = ({
             </TabsTrigger>
           ))}
         </div>
-        <div className="flex gap-4 text-xs font-semibold ml-auto">
+        <div className="ml-auto flex gap-4 text-xs font-semibold">
           <span className={`font-bold ${getStatusColorClass(response.status)}`}>
             {response.status} {getStatusText(response)}
           </span>
