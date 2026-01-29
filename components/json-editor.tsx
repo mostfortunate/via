@@ -29,7 +29,7 @@ const JSONEditor = (props: JSONEditorProps) => {
       outline: "none",
     },
   });
-  
+
   const extensions = [json(), noFocusOutlineRule];
   const theme = resolvedTheme === "dark" ? githubDark : githubLight;
 

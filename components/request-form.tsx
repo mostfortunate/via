@@ -30,7 +30,7 @@ const RequestForm = ({
   return (
     <div className="flex flex-row gap-4">
       <Select value={method} onValueChange={setMethod}>
-        <SelectTrigger className="font-semibold w-full max-w-48">
+        <SelectTrigger className="w-full max-w-48 font-semibold">
           <SelectValue placeholder={method} />
         </SelectTrigger>
         <SelectContent>
