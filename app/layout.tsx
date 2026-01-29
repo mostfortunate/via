@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fira_Code } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Footer } from "@/components/footer";
@@ -37,6 +38,7 @@ export default function RootLayout({
           <div className="fixed bottom-0 right-0 p-4">
             <ModeToggle />
           </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
