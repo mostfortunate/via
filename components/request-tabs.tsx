@@ -17,10 +17,10 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
 import JSONEditor from "@/components/json-editor";
-
 import { ClipboardPaste, Trash2, Trash } from "lucide-react";
+
+import { HTTPMethod } from "@/app/types/http";
 
 interface QueryParam {
   key: string;
@@ -33,6 +33,7 @@ interface Header {
 }
 
 interface RequestTabsProps {
+  method: HTTPMethod;
   queryParams: QueryParam[];
   updateQueryParam: (index: number, updates: Partial<QueryParam>) => void;
   deleteQueryParam: (index: number) => void;
@@ -52,6 +53,7 @@ const DeleteButton = ({ onClick }: { onClick: () => void }) => (
 );
 
 const RequestTabs = ({
+  method,
   queryParams,
   updateQueryParam,
   deleteQueryParam,
@@ -63,7 +65,10 @@ const RequestTabs = ({
   requestBody,
   onRequestBodyChange,
 }: RequestTabsProps) => {
-  const requestTabs = ["Params", "Headers", "JSON"];
+  const showJSONTab = method !== "GET";
+  const requestTabs = showJSONTab
+    ? ["Params", "Headers", "JSON"]
+    : ["Params", "Headers"];
 
   return (
     <Tabs defaultValue={requestTabs[0]} className="w-full">
@@ -156,57 +161,59 @@ const RequestTabs = ({
           </CardFooter>
         </Card>
       </TabsContent>
-      <TabsContent value="JSON">
-        <Card>
-          <CardHeader className="flex flex-row justify-between">
-            <div className="flex flex-col gap-3">
-              <CardTitle>Request Body</CardTitle>
-              <CardDescription>
-                Edit JSON data for your request.
-              </CardDescription>
-            </div>
-            <div className="flex flex-row gap-2">
-              <CardAction>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="secondary"
-                      className="hover:bg-muted/90 hover:text-secondary transition-colors"
-                      size="icon-xs"
-                      aria-label="Paste request body"
-                    >
-                      <ClipboardPaste />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Paste</p>
-                  </TooltipContent>
-                </Tooltip>
-              </CardAction>
-              <CardAction>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="destructive"
-                      className="hover:bg-muted/90 hover:text-destructive transition-colors"
-                      size="icon-xs"
-                      aria-label="Remove request body"
-                    >
-                      <Trash2 />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Clear</p>
-                  </TooltipContent>
-                </Tooltip>
-              </CardAction>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <JSONEditor value={requestBody} onChange={onRequestBodyChange} />
-          </CardContent>
-        </Card>
-      </TabsContent>
+      {showJSONTab && (
+        <TabsContent value="JSON">
+          <Card>
+            <CardHeader className="flex flex-row justify-between">
+              <div className="flex flex-col gap-3">
+                <CardTitle>Request Body</CardTitle>
+                <CardDescription>
+                  Edit JSON data for your request.
+                </CardDescription>
+              </div>
+              <div className="flex flex-row gap-2">
+                <CardAction>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="secondary"
+                        className="hover:bg-muted/90 hover:text-secondary transition-colors"
+                        size="icon-xs"
+                        aria-label="Paste request body"
+                      >
+                        <ClipboardPaste />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Paste</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </CardAction>
+                <CardAction>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="destructive"
+                        className="hover:bg-muted/90 hover:text-destructive transition-colors"
+                        size="icon-xs"
+                        aria-label="Remove request body"
+                      >
+                        <Trash2 />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Clear</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </CardAction>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <JSONEditor value={requestBody} onChange={onRequestBodyChange} />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      )}
     </Tabs>
   );
 };

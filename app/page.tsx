@@ -232,6 +232,7 @@ export default function Home() {
           onSend={sendRequest}
         />
         <RequestTabs
+          method={method}
           queryParams={queryParams}
           updateQueryParam={updateQueryParam}
           deleteQueryParam={deleteQueryParam}
