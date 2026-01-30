@@ -111,7 +111,6 @@ export default function Home() {
     if (!url) {
       toast.warning("Please enter a URL.", {
         ...TOAST_PROPS,
-        duration: Infinity,
       });
       return;
     }
