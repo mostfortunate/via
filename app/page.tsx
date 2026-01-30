@@ -43,6 +43,10 @@ export default function Home() {
     return arr.filter((_, i) => i !== index);
   }
 
+  function hasEmptyKeys(arr: { key: string; value: string }[]): boolean {
+    return arr.some(({ key }) => !key.trim());
+  }
+
   function keyValueArrayToObject(
     arr: { key: string; value: string }[],
   ): Record<string, string> {
@@ -110,6 +114,26 @@ export default function Home() {
     if (!url) {
       toast.warning("Please enter a URL.", {
         ...TOAST_PROPS,
+      });
+      return;
+    }
+
+    if (hasEmptyKeys(headers) && hasEmptyKeys(queryParams)) {
+      toast.warning("Query parameters and headers must have non-empty keys.", {
+        ...TOAST_PROPS,
+        duration: Infinity,
+      });
+      return;
+    } else if (hasEmptyKeys(headers)) {
+      toast.warning("Headers must have non-empty keys.", {
+        ...TOAST_PROPS,
+        duration: Infinity,
+      });
+      return;
+    } else if (hasEmptyKeys(queryParams)) {
+      toast.warning("Query parameters must have non-empty keys.", {
+        ...TOAST_PROPS,
+        duration: Infinity,
       });
       return;
     }
