@@ -62,7 +62,7 @@ export default function Home() {
       return status[res.status];
     }
 
-    return "";
+    return "Unknown Status";
   }
 
   // MARK: Handlers
