@@ -25,6 +25,12 @@ export function keyValueArrayToObject(
   return obj;
 }
 
+export function stringifyResponseBody(data: string | number | boolean | object | null | undefined): string {
+  if (data === undefined || data === null) return "";
+  if (typeof data === "string") return data;
+  return JSON.stringify(data, null, 2);
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

@@ -9,6 +9,7 @@ import {
   deleteAt,
   hasEmptyKeys,
   keyValueArrayToObject,
+  stringifyResponseBody,
 } from "@/lib/utils";
 
 import { type HTTPMethod } from "@/app/types/http";
@@ -162,21 +163,12 @@ export default function Home() {
       axiosPromise.then((response: AxiosResponse) => {
         // 2xx: treat as success
         if (response.status >= 200 && response.status < 300) {
-          setResponseBody(JSON.stringify(response.data, null, 2));
+          setResponseBody(stringifyResponseBody(response.data));
           setResponse(response);
           return response;
         } else {
           // 4xx/5xx: treat as error, but still show response tab
-
-          let bodyString = "";
-          if (response.data === undefined || response.data === null) {
-            bodyString = "";
-          } else if (typeof response.data === "string") {
-            bodyString = response.data;
-          } else {
-            bodyString = JSON.stringify(response.data, null, 2);
-          }
-
+          const bodyString = stringifyResponseBody(response.data);
           setResponseBody(bodyString);
           setResponse(response);
 
