@@ -1,8 +1,6 @@
-# Mango
+![Via Dark Banner](public/via.png)
 
-![Mango Dark Banner](public/mango.png)
-
-Mango is a free, lightweight, easy-to-use HTTP client. It provides a modern, intuitive interface for building, sending, and inspecting HTTP requests. Mango is designed for developers seeking a fast, open-source alternative to tools like Postman or Insomnia.
+Via is a free, lightweight, easy-to-use HTTP client. It provides a modern, intuitive interface for building, sending, and inspecting HTTP requests. Via is designed for developers seeking a fast, open-source alternative to tools like Postman or Insomnia.
 
 ---
 
@@ -20,8 +18,8 @@ Mango is a free, lightweight, easy-to-use HTTP client. It provides a modern, int
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/mostfortunate/mango.git
-   cd mango
+   git clone https://github.com/mostfortunate/via.git
+   cd via
    ```
 2. Install dependencies:
    ```bash

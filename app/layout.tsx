@@ -13,8 +13,8 @@ const firaCode = Fira_Code({
 });
 
 export const metadata: Metadata = {
-  title: "Mango",
-  description: "Mango is a free, lightweight, easy-to-use HTTP client.",
+  title: "Via",
+  description: "Via is a free, lightweight, easy-to-use HTTP client.",
 };
 
 export default function RootLayout({
