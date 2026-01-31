@@ -25,7 +25,7 @@ type Header = {
 const methods: HTTPMethod[] = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 const TOAST_PROPS: ExternalToast = {
   position: "top-center",
-  duration: 1200,
+  duration: 2500,
   closeButton: true,
 };
 

@@ -69,19 +69,16 @@ export function useHttpRequest({
     if (hasEmptyKeys(headers) && hasEmptyKeys(queryParams)) {
       toast.warning("Query parameters and headers must have non-empty keys.", {
         ...TOAST_PROPS,
-        duration: Infinity,
       });
       return;
     } else if (hasEmptyKeys(headers)) {
       toast.warning("Headers must have non-empty keys.", {
         ...TOAST_PROPS,
-        duration: Infinity,
       });
       return;
     } else if (hasEmptyKeys(queryParams)) {
       toast.warning("Query parameters must have non-empty keys.", {
         ...TOAST_PROPS,
-        duration: Infinity,
       });
       return;
     }
@@ -95,7 +92,6 @@ export function useHttpRequest({
     } catch (e: any) {
       toast.error("Please enter a valid URL.", {
         ...TOAST_PROPS,
-        duration: Infinity,
       });
       return;
     }
@@ -107,7 +103,6 @@ export function useHttpRequest({
       } catch (e: any) {
         toast.error("Request body must be valid JSON.", {
           ...TOAST_PROPS,
-          duration: Infinity,
         });
         return;
       }
@@ -157,7 +152,6 @@ export function useHttpRequest({
             : "Network or unknown error occurred.";
         },
         ...TOAST_PROPS,
-        duration: Infinity,
       },
     );
   }, [
