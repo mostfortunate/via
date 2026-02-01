@@ -177,7 +177,6 @@ const RequestTabs = ({
                     <TooltipTrigger asChild>
                       <Button
                         variant="secondary"
-                        className="hover:bg-muted/90 hover:text-secondary transition-colors"
                         size="icon-xs"
                         aria-label="Paste request body"
                       >
@@ -194,7 +193,6 @@ const RequestTabs = ({
                     <TooltipTrigger asChild>
                       <Button
                         variant="destructive"
-                        className="hover:bg-muted/90 hover:text-destructive transition-colors"
                         size="icon-xs"
                         aria-label="Remove request body"
                       >

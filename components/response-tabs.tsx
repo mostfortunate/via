@@ -83,7 +83,6 @@ const ResponseTabs = ({
                 <TooltipTrigger asChild>
                   <Button
                     variant="secondary"
-                    className="hover:bg-muted/90 hover:text-secondary transition-colors"
                     size="icon-xs"
                     aria-label="Copy response body"
                   >
