@@ -8,13 +8,13 @@ export function ModeToggle() {
   const { setTheme, resolvedTheme } = useTheme();
   const theme = resolvedTheme ?? "light";
 
-  return theme === "dark" ? (
-    <Button size="icon" onClick={() => setTheme("light")}>
-      <Moon />
-    </Button>
-  ) : (
-    <Button size="icon" onClick={() => setTheme("dark")}>
-      <Sun />
+  return (
+    <Button
+      size="icon"
+      onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
+    >
+      <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+      <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
     </Button>
   );
 }
