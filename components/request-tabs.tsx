@@ -1,8 +1,6 @@
-"use client";
-
-import { useTheme } from "next-themes";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
 import {
   Card,
   CardAction,
@@ -22,8 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import JSONEditor from "@/components/json-editor";
-import { ClipboardPaste, Trash2, Trash } from "lucide-react";
-import { IconAlertTriangle } from "@tabler/icons-react";
+import { ClipboardPaste, Trash2, Trash, AlertTriangleIcon } from "lucide-react";
 
 import { HTTPMethod } from "@/app/types/http";
 
@@ -51,23 +48,9 @@ interface RequestTabsProps {
   onRequestBodyChange: (body: string) => void;
 }
 
-interface AlertMessageProps {
-  text: string;
-}
-
 interface DeleteButtonProps {
   onClick: () => void;
 }
-
-const AlertMessage = ({ text }: AlertMessageProps) => {
-  const { theme } = useTheme();
-  return (
-    <div className="text-muted-foreground font-semibold flex flex-row items-center gap-2 rounded-sm border-2 border-yellow-300/70 bg-amber-400/10 p-2">
-      <IconAlertTriangle color={theme === "dark" ? "#cc9602" : "#fcba03"} />
-      {text}
-    </div>
-  );
-};
 
 const DeleteButton = ({ onClick }: DeleteButtonProps) => (
   <Button variant="destructive" size="icon" onClick={onClick}>
@@ -190,9 +173,18 @@ const RequestTabs = ({
               <CardTitle>Request Body</CardTitle>
               <CardDescription>
                 {ignoreJSON ? (
-                  <AlertMessage text="Request body will not be sent for GET requests." />
+                  <Alert variant="warning">
+                    <AlertTriangleIcon />
+                    <AlertTitle>Warning</AlertTitle>
+                    <AlertDescription>
+                      <p>
+                        Request body will not be sent for <strong>GET</strong>{" "}
+                        requests.
+                      </p>
+                    </AlertDescription>
+                  </Alert>
                 ) : (
-                  "Edit the JSON request body."
+                  <p>Edit the JSON request body.</p>
                 )}
               </CardDescription>
             </div>
