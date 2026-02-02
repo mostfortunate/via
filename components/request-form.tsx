@@ -43,7 +43,7 @@ const RequestForm = ({
   onSend,
 }: RequestFormProps) => {
   const { resolvedTheme } = useTheme();
-  const theme = (resolvedTheme ?? "dark") as "light" | "dark";
+  const theme = (resolvedTheme ?? "light") as "light" | "dark";
 
   return (
     <div className="flex flex-row gap-4">
