@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Fira_Code } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
+import AppSidebar from "@/components/app-sidebar";
 import Footer from "@/components/footer";
 import "./globals.css";
 
@@ -33,12 +35,17 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex-1">{children}</div>
-          <Footer />
-          <div className="fixed right-0 bottom-0 p-4">
-            <ModeToggle />
-          </div>
-          <Toaster visibleToasts={3} richColors />
+          <SidebarProvider defaultOpen={true}>
+            <AppSidebar />
+            <main className="flex w-full flex-1 flex-col">
+              <div className="flex-1">{children}</div>
+              <Footer />
+            </main>
+            <div className="fixed right-0 bottom-0 p-4">
+              <ModeToggle />
+            </div>
+            <Toaster visibleToasts={3} richColors />
+          </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>
