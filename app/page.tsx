@@ -24,7 +24,7 @@ type Header = {
 };
 
 const TOAST_PROPS: ExternalToast = {
-  position: "top-center",
+  position: "bottom-right",
   duration: 2500,
   closeButton: true,
 };
