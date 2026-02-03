@@ -67,7 +67,7 @@ const RequestForm = ({
               {method}
             </InputGroupButton>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-32">
+          <DropdownMenuContent align="start"  className="w-38">
             {Object.entries(HTTP_METHODS).map(([name, color]) => (
               <DropdownMenuCheckboxItem
                 key={name}
@@ -82,7 +82,11 @@ const RequestForm = ({
         </DropdownMenu>
       </InputGroupAddon>
       <InputGroupAddon align="inline-end">
-        <InputGroupButton variant="default" className="text-primary-foreground font-semibold" onClick={onSend}>
+        <InputGroupButton
+          variant="default"
+          className="text-primary-foreground font-semibold"
+          onClick={onSend}
+        >
           Send
         </InputGroupButton>
       </InputGroupAddon>
