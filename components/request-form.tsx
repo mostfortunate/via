@@ -49,7 +49,7 @@ const RequestForm = ({
     <div className="flex flex-row gap-4">
       <Select value={method} onValueChange={setMethod}>
         <SelectTrigger
-          className={`w-full max-w-48 font-semibold ${HTTP_METHODS[method][theme]}`}
+          className={`w-full max-w-48 font-mono ${HTTP_METHODS[method][theme]}`}
         >
           <SelectValue placeholder={method} />
         </SelectTrigger>
@@ -59,7 +59,7 @@ const RequestForm = ({
               <SelectItem
                 key={name}
                 value={name}
-                className={`font-semibold ${color[theme]}`}
+                className={`font-mono ${color[theme]}`}
               >
                 {name}
               </SelectItem>
