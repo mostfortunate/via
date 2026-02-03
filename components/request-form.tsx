@@ -15,6 +15,8 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
+
+import { History } from "lucide-react";
 import { HTTPMethod } from "@/app/types/http";
 
 interface RequestFormProps {
@@ -81,10 +83,13 @@ const RequestForm = ({
           </DropdownMenuContent>
         </DropdownMenu>
       </InputGroupAddon>
-      <InputGroupAddon align="inline-end">
+      <InputGroupAddon className="gap-0" align="inline-end">
+        <InputGroupButton variant="ghost">
+          <History />
+        </InputGroupButton>
         <InputGroupButton
           variant="default"
-          className="text-primary-foreground font-semibold"
+          className="text-primary-foreground font-semibold px-4"
           onClick={onSend}
         >
           Send
