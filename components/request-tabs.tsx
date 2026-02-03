@@ -175,7 +175,7 @@ const RequestTabs = ({
                 {ignoreJSON ? (
                   <Alert variant="warning">
                     <AlertTriangleIcon />
-                    <AlertTitle>Warning</AlertTitle>
+                    <AlertTitle className="font-bold">Warning</AlertTitle>
                     <AlertDescription>
                       <p>
                         Request body will not be sent for <strong>GET</strong>{" "}
