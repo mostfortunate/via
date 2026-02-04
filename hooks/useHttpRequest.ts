@@ -17,7 +17,7 @@ const TOAST_PROPS: ExternalToast = {
 };
 
 // type guard for AxiosError with response
-function isAxiosErrorWithResponse(
+export function isAxiosErrorWithResponse(
   error: unknown,
 ): error is { response: AxiosResponse } {
   return (
@@ -29,7 +29,9 @@ function isAxiosErrorWithResponse(
 }
 
 // type guard for Error with message
-function isErrorWithMessage(error: unknown): error is { message: string } {
+export function isErrorWithMessage(
+  error: unknown,
+): error is { message: string } {
   return (
     typeof error === "object" &&
     error !== null &&
@@ -38,11 +40,11 @@ function isErrorWithMessage(error: unknown): error is { message: string } {
   );
 }
 
-type ValidationResult<T = undefined> =
+export type ValidationResult<T = undefined> =
   | { ok: true; value?: T }
   | { ok: false; error: string };
 
-function validateUrl(url: string): ValidationResult<URL> {
+export function validateUrl(url: string): ValidationResult<URL> {
   if (!url) {
     return { ok: false, error: "Please enter a URL." };
   }
@@ -61,7 +63,7 @@ function validateUrl(url: string): ValidationResult<URL> {
   }
 }
 
-function validateKeyValueInputs(
+export function validateKeyValueInputs(
   headers: { key: string; value: string }[],
   queryParams: { key: string; value: string }[],
 ): ValidationResult {
@@ -86,7 +88,7 @@ function validateKeyValueInputs(
   return { ok: true };
 }
 
-function parseJsonBody(requestBody: string): ValidationResult<unknown> {
+export function parseJsonBody(requestBody: string): ValidationResult<unknown> {
   if (!requestBody) {
     return { ok: true, value: undefined };
   }
@@ -98,7 +100,7 @@ function parseJsonBody(requestBody: string): ValidationResult<unknown> {
   }
 }
 
-function buildAxiosConfig(params: {
+export function buildAxiosConfig(params: {
   url: string;
   method: string;
   queryParams: { key: string; value: string }[];
@@ -115,11 +117,11 @@ function buildAxiosConfig(params: {
   };
 }
 
-function isSuccessStatus(status: number) {
+export function isSuccessStatus(status: number) {
   return status >= 200 && status < 300;
 }
 
-function buildHistoryItem(params: {
+export function buildHistoryItem(params: {
   method: string;
   url: string;
   response: AxiosResponse;
@@ -133,7 +135,7 @@ function buildHistoryItem(params: {
   };
 }
 
-function formatErrorMessage(error: unknown) {
+export function formatErrorMessage(error: unknown) {
   if (isAxiosErrorWithResponse(error)) {
     return `HTTP Error: ${error.response.status} ${getStatusText(error.response)}`;
   }
@@ -143,7 +145,7 @@ function formatErrorMessage(error: unknown) {
   return "Network or unknown error occurred.";
 }
 
-function registerAxiosInterceptors(
+export function registerAxiosInterceptors(
   updateEndTime: (response: AxiosResponse) => AxiosResponse,
 ) {
   const requestInterceptor = axios.interceptors.request.use((request) => {
@@ -168,11 +170,11 @@ function registerAxiosInterceptors(
   };
 }
 
-function showWarning(message: string, toastProps: ExternalToast) {
+export function showWarning(message: string, toastProps: ExternalToast) {
   toast.warning(message, { ...toastProps });
 }
 
-function showError(message: string, toastProps: ExternalToast) {
+export function showError(message: string, toastProps: ExternalToast) {
   toast.error(message, { ...toastProps });
 }
 
