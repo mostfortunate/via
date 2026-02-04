@@ -2,8 +2,8 @@
 
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { useHttpRequest } from "@/hooks/useHttpRequest";
-import { useRequestHistory } from "@/hooks/useRequestHistory";
+import { useHttpRequest } from "@/hooks/use-http-request";
+import { useRequestHistory } from "@/hooks/use-request-history";
 import { updateAt, deleteAt, getStatusText } from "@/lib/utils";
 
 import { MOCK_HISTORY } from "@/mocks/request-history";

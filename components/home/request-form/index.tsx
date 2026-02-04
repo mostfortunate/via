@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { useClickOutside } from "@/hooks/useClickOutside";
+import { useClickOutside } from "@/hooks/use-click-outside";
 
 import { type HTTPMethod } from "@/app/types/http";
 import { type HistoryItem } from "@/app/types/models";
