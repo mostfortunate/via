@@ -6,7 +6,7 @@ import {
   parseJsonBody,
   validateKeyValueInputs,
   validateUrl,
-} from "@/hooks/use-http-request";
+} from "@/hooks/use-http-request/helpers";
 
 import {
   getStatusText,
