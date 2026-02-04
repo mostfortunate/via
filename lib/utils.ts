@@ -57,6 +57,41 @@ export function getStatusColorClass(code: number) {
   return "text-muted-foreground";
 };
 
+export type KeyValueRow = { key: string; value: string };
+
+export const isRowEmpty = (row: KeyValueRow) =>
+  row.key.trim() === "" && row.value.trim() === "";
+
+export const hasRowValue = (row: KeyValueRow) =>
+  row.key.trim() !== "" || row.value.trim() !== "";
+
+export const shouldAppendEmptyRow = <T extends KeyValueRow>(rows: T[]) =>
+  rows.length > 0 && rows.every(hasRowValue);
+
+export const appendEmptyRow = <T extends KeyValueRow>(rows: T[]) => [
+  ...rows,
+  { key: "", value: "" } as T,
+];
+
+export const updateKeyValueRows = <T extends KeyValueRow>(
+  rows: T[],
+  index: number,
+  updates: Partial<T>,
+) => {
+  const updated = updateAt(rows, index, updates);
+  const row = updated[index];
+  const next = row && isRowEmpty(row) ? deleteAt(updated, index) : updated;
+  return shouldAppendEmptyRow(next) ? appendEmptyRow(next) : next;
+};
+
+export const deleteKeyValueRow = <T extends KeyValueRow>(
+  rows: T[],
+  index: number,
+) => {
+  const next = deleteAt(rows, index);
+  return shouldAppendEmptyRow(next) ? appendEmptyRow(next) : next;
+};
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

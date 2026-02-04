@@ -4,7 +4,11 @@ import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useHttpRequest } from "@/hooks/use-http-request";
 import { useRequestHistory } from "@/hooks/use-request-history";
-import { updateAt, deleteAt, getStatusText } from "@/lib/utils";
+import {
+  getStatusText,
+  deleteKeyValueRow,
+  updateKeyValueRows,
+} from "@/lib/utils";
 
 import { MOCK_HISTORY } from "@/mocks/request-history";
 
@@ -36,19 +40,19 @@ export default function Home() {
 
   // MARK: Handlers
   const updateQueryParam = (index: number, updates: Partial<QueryParam>) => {
-    setQueryParams((prev) => updateAt(prev, index, updates));
+    setQueryParams((prev) => updateKeyValueRows(prev, index, updates));
   };
 
   const deleteQueryParam = (index: number) => {
-    setQueryParams((prev) => deleteAt(prev, index));
+    setQueryParams((prev) => deleteKeyValueRow(prev, index));
   };
 
   const updateHeader = (index: number, updates: Partial<Header>) => {
-    setHeaders((prev) => updateAt(prev, index, updates));
+    setHeaders((prev) => updateKeyValueRows(prev, index, updates));
   };
 
   const deleteHeader = (index: number) => {
-    setHeaders((prev) => deleteAt(prev, index));
+    setHeaders((prev) => deleteKeyValueRow(prev, index));
   };
 
   const onRequestBodyChange = useCallback((body: string) => {
