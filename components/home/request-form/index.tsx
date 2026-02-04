@@ -16,8 +16,8 @@ interface RequestFormProps {
   url: string;
   method: HTTPMethod;
   requestHistory: HistoryItem[];
-  setUrl: (url: string) => void;
   setMethod: (method: HTTPMethod) => void;
+  setUrl: (url: string) => void;
   onSend: () => void;
 }
 
@@ -25,8 +25,8 @@ const RequestForm = ({
   url,
   method,
   requestHistory,
-  setUrl,
   setMethod,
+  setUrl,
   onSend,
 }: RequestFormProps) => {
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
