@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from "react";
 import axios, { type AxiosResponse } from "axios";
 import { toast, type ExternalToast } from "sonner";
+import { type HistoryItem } from "@/app/types/models";
 
 import {
   keyValueArrayToObject,
@@ -17,8 +18,31 @@ export interface UseHttpRequestParams {
   requestBody: string;
   setResponse: (res: AxiosResponse | null) => void;
   setResponseBody: (body: string) => void;
+  addFromResponse: (params: HistoryItem) => void;
   TOAST_PROPS: ExternalToast;
   updateEndTime: (response: AxiosResponse) => AxiosResponse;
+}
+
+// type guard for AxiosError with response
+function isAxiosErrorWithResponse(
+  error: unknown,
+): error is { response: AxiosResponse } {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "response" in error &&
+    typeof (error as { response?: unknown }).response === "object"
+  );
+}
+
+// type guard for Error with message
+function isErrorWithMessage(error: unknown): error is { message: string } {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error &&
+    typeof (error as { message?: unknown }).message === "string"
+  );
 }
 
 export function useHttpRequest({
@@ -29,6 +53,7 @@ export function useHttpRequest({
   requestBody,
   setResponse,
   setResponseBody,
+  addFromResponse,
   TOAST_PROPS,
   updateEndTime,
 }: UseHttpRequestParams) {
@@ -89,18 +114,18 @@ export function useHttpRequest({
       if (!/^https?:$/.test(parsedUrl.protocol)) {
         throw new Error("Only HTTP and HTTPS protocols are supported.");
       }
-    } catch (e: any) {
+    } catch {
       toast.error("Please enter a valid URL.", {
         ...TOAST_PROPS,
       });
       return;
     }
 
-    let parsedBody: any = undefined;
+    let parsedBody: unknown = undefined;
     if (requestBody) {
       try {
         parsedBody = JSON.parse(requestBody);
-      } catch (e: any) {
+      } catch {
         toast.error("Request body must be valid JSON.", {
           ...TOAST_PROPS,
         });
@@ -123,33 +148,56 @@ export function useHttpRequest({
         if (response.status >= 200 && response.status < 300) {
           setResponseBody(stringifyResponseBody(response.data));
           setResponse(response);
+          addFromResponse({
+            method,
+            url,
+            status: response.status,
+            statusText: getStatusText(response),
+            time: response.customData?.time || 0,
+          });
           return response;
         } else {
           // 4xx/5xx: treat as error, but still show response tab
           const bodyString = stringifyResponseBody(response.data);
           setResponseBody(bodyString);
           setResponse(response);
+          addFromResponse({
+            method,
+            url,
+            status: response.status,
+            statusText: getStatusText(response),
+            time: response.customData?.time || 0,
+          });
 
           // throw to trigger error toast, pass response for error message
-          const error: any = new Error(
+          const error = new Error(
             `HTTP Error: ${response.status} ${getStatusText(response)}`,
-          );
+          ) as Error & {
+            response?: AxiosResponse;
+            status?: number;
+            statusText?: string;
+          };
+
           error.response = response;
+          error.status = response.status;
+          error.statusText = getStatusText(response);
+
           throw error;
         }
       }),
       {
         loading: "Sending...",
-        success: (_: AxiosResponse) => {
+        success: () => {
           return "Success!";
         },
-        error: (error: any) => {
-          if (error?.response) {
+        error: (error: unknown) => {
+          if (isAxiosErrorWithResponse(error)) {
             return `HTTP Error: ${error.response.status} ${getStatusText(error.response)}`;
           }
-          return error?.message
-            ? `Error: ${error.message}`
-            : "Network or unknown error occurred.";
+          if (isErrorWithMessage(error)) {
+            return `Error: ${error.message}`;
+          }
+          return "Network or unknown error occurred.";
         },
         ...TOAST_PROPS,
       },
@@ -162,6 +210,7 @@ export function useHttpRequest({
     requestBody,
     setResponse,
     setResponseBody,
+    addFromResponse,
     TOAST_PROPS,
   ]);
 

@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useHttpRequest } from "@/hooks/useHttpRequest";
+import { useRequestHistory } from "@/hooks/useRequestHistory";
 import { updateAt, deleteAt, getStatusText } from "@/lib/utils";
 
 import { MOCK_HISTORY } from "@/mocks/request-history";
@@ -16,6 +17,7 @@ import RequestForm from "@/components/home/request-form";
 import RequestTabs from "@/components/home/request-tabs";
 import ResponseTabs from "@/components/home/response-tabs";
 
+const USE_MOCK_DATA = false;
 const TOAST_PROPS: ExternalToast = {
   position: "bottom-right",
   duration: 2500,
@@ -59,7 +61,12 @@ export default function Home() {
     setRequestBody(body);
   }, []);
 
+  const { history: requestHistory, addFromResponse } = useRequestHistory(
+    USE_MOCK_DATA ? MOCK_HISTORY : [],
+  );
+
   const { sendRequest } = useHttpRequest({
+    TOAST_PROPS,
     url,
     method,
     queryParams,
@@ -67,7 +74,7 @@ export default function Home() {
     requestBody,
     setResponse,
     setResponseBody,
-    TOAST_PROPS,
+    addFromResponse,
     updateEndTime,
   });
 
@@ -77,7 +84,7 @@ export default function Home() {
         <RequestForm
           url={url}
           method={method}
-          requestHistory={MOCK_HISTORY}
+          requestHistory={requestHistory}
           setMethod={setMethod}
           setUrl={setUrl}
           onSend={sendRequest}
