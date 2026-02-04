@@ -31,7 +31,10 @@ const RequestForm = ({
   onSend,
 }: RequestFormProps) => {
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
-  const containerRef = useClickOutside(() => setIsHistoryOpen(false), isHistoryOpen);
+  const containerRef = useClickOutside(
+    () => setIsHistoryOpen(false),
+    isHistoryOpen,
+  );
 
   const handleHistoryItemClick = (historyItem: HistoryItem) => {
     setUrl(historyItem.url);
