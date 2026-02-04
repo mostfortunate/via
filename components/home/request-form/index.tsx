@@ -45,10 +45,9 @@ const RequestForm = ({
   return (
     <div ref={containerRef} className="relative">
       <InputGroup className={cn(isHistoryOpen && "rounded-b-none")}>
-        <AddressBar 
-          url={url} 
+        <AddressBar
+          url={url}
           onUrlChange={setUrl}
-          onClick={() => isHistoryOpen && setIsHistoryOpen(false)}
         />
         <InputGroupAddon align="inline-start">
           <MethodSelector method={method} setMethod={setMethod} />
@@ -66,7 +65,7 @@ const RequestForm = ({
         role="menu"
         aria-label="Request History"
         className={cn(
-          "bg-background absolute right-0 left-0 z-50 overflow-hidden rounded-b-md border border-t-0 shadow-lg transition-all duration-300 ease-in-out",
+          "bg-background absolute right-0 left-0 z-50 overflow-hidden rounded-b-md border border-t-0 shadow-lg transition-all duration-100 ease-in-out",
           isHistoryOpen
             ? "max-h-125 opacity-100"
             : "max-h-0 border-0 opacity-0",
