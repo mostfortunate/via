@@ -29,8 +29,6 @@ const RequestForm = ({
   setMethod,
   onSend,
 }: RequestFormProps) => {
-  const { resolvedTheme } = useTheme();
-  const theme = (resolvedTheme ?? "light") as "light" | "dark";
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   const handleHistoryItemClick = (historyItem: HistoryItem) => {
@@ -44,7 +42,7 @@ const RequestForm = ({
       <InputGroup className={cn(isHistoryOpen && "rounded-b-none")}>
         <AddressBar url={url} onUrlChange={setUrl} />
         <InputGroupAddon align="inline-start">
-          <MethodSelector method={method} setMethod={setMethod} theme={theme} />
+          <MethodSelector method={method} setMethod={setMethod} />
         </InputGroupAddon>
         <InputGroupAddon className="gap-2" align="inline-end">
           <Actions
@@ -74,7 +72,7 @@ const RequestForm = ({
                 onClick={() => handleHistoryItemClick(item)}
                 className="hover:bg-accent flex w-full items-center justify-between rounded-sm px-3 py-1.5"
               >
-                <RequestHistoryRow item={item} theme={theme} />
+                <RequestHistoryRow item={item} />
               </button>
             ))}
           </div>
