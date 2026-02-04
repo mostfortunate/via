@@ -12,7 +12,12 @@ const config: Config = {
   testEnvironment: "jsdom",
   moduleNameMapper: {
     "@/(.*)$": "<rootDir>/$1",
-  }
+  },
+  // Because our folder is named tests and not __tests, we need to manually configure the path
+  testMatch: [
+    "<rootDir>/tests/**/*.test.{js,jsx,ts,tsx}",
+    "<rootDir>/tests/**/*.spec.{js,jsx,ts,tsx}"
+  ],
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
