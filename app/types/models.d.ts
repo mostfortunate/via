@@ -5,3 +5,13 @@ export type HistoryItem = {
     status: number;
     statusText: string;
 };
+
+export type QueryParam = {
+  key: string;
+  value: string;
+}
+
+export type Header = {
+  key: string;
+  value: string;
+}
