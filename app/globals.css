@@ -70,12 +70,7 @@
   --chart-2: oklch(0.5393 0.2713 286.7462);
   --chart-3: oklch(0.7336 0.1758 50.5517);
   --chart-4: oklch(0.5828 0.1809 259.7276);
-  --chart-5: oklch(0.559 0 0);
-  --http-method-get: oklch(62.3% 0.214 259.815);
-  --http-method-post: oklch(62.7% 0.194 149.214);
-  --http-method-patch: oklch(72.3% 0.219 149.579);
-  --http-method-put: oklch(70.5% 0.213 47.604);
-  --http-method-delete: oklch(63.7% 0.237 25.331);
+  --chart-5: oklch(0.559 0 0);  
   --sidebar: oklch(0.9777 0.0051 247.8763);
   --sidebar-foreground: oklch(0 0 0);
   --sidebar-primary: oklch(0 0 0);
@@ -109,6 +104,11 @@
   --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.4);
   --tracking-normal: -0.025em;
   --spacing: 0.27rem;
+  --http-method-get: oklch(62.3% 0.214 259.815);
+  --http-method-post: oklch(62.7% 0.194 149.214);
+  --http-method-patch: oklch(72.3% 0.219 149.579);
+  --http-method-put: oklch(70.5% 0.213 47.604);
+  --http-method-delete: oklch(63.7% 0.237 25.331);
 }
 
 .dark {
@@ -136,11 +136,6 @@
   --chart-3: oklch(0.8077 0.1035 19.5706);
   --chart-4: oklch(0.6691 0.1569 260.1063);
   --chart-5: oklch(0.7058 0 0);
-  --http-method-get: oklch(62.3% 0.214 259.815);
-  --http-method-post: oklch(72.3% 0.219 149.579);
-  --http-method-patch: oklch(87.1% 0.15 154.449);
-  --http-method-put: oklch(70.5% 0.213 47.604);
-  --http-method-delete: oklch(63.7% 0.237 25.331);
   --sidebar: oklch(0.2011 0.0039 286.0396);
   --sidebar-foreground: oklch(0.9551 0 0);
   --sidebar-primary: oklch(0.4823 0.2694 285.02);
@@ -172,6 +167,11 @@
   --shadow-xl:
     0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 8px 10px -1px hsl(0 0% 0% / 0.16);
   --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.4);
+  --http-method-get: oklch(62.3% 0.214 259.815);
+  --http-method-post: oklch(72.3% 0.219 149.579);
+  --http-method-patch: oklch(87.1% 0.15 154.449);
+  --http-method-put: oklch(70.5% 0.213 47.604);
+  --http-method-delete: oklch(63.7% 0.237 25.331);
 }
 
 @layer base {
