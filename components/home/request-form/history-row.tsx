@@ -8,10 +8,10 @@ export interface RequestHistoryRowProps {
 export const RequestHistoryRow = ({ item }: RequestHistoryRowProps) => {
   const methodColorVar = `--http-method-${item.method.toLowerCase()}`;
   return (
-    <>
-      <div className="flex flex-1 items-center gap-3 font-mono">
+    <div className="flex flex-row w-full justify-between">
+      <div className="flex flex-1 items-center gap-6 font-mono">
         <span
-          className="flex w-12 justify-start font-mono text-xs font-semibold"
+          className="flex justify-start font-mono text-xs font-semibold"
           style={{ color: `var(${methodColorVar})` }}
         >
           {item.method}
@@ -27,10 +27,10 @@ export const RequestHistoryRow = ({ item }: RequestHistoryRowProps) => {
         >
           {item.status}
         </span>
-        <span className="text-muted-foreground w-32 text-left text-xs">
+        <span className="text-muted-foreground text-left text-xs truncate">
           {item.statusText}
         </span>
       </div>
-    </>
+    </div>
   );
 };
