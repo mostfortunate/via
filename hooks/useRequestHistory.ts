@@ -6,7 +6,7 @@ export function useRequestHistory(initialHistory: HistoryItem[] = []) {
   const [history, setHistory] = useState<HistoryItem[]>(initialHistory);
 
   const addToHistory = useCallback((item: HistoryItem) => {
-    setHistory((prev) => [item, ...prev]);
+    setHistory((prev) => [item, ...prev].slice(0, 10));
   }, []);
 
   const addFromResponse = useCallback((params: HistoryItem) => {
@@ -17,7 +17,7 @@ export function useRequestHistory(initialHistory: HistoryItem[] = []) {
       status: params.status,
       statusText: params.statusText,
     };
-    setHistory((prev) => [item, ...prev]);
+    setHistory((prev) => [item, ...prev].slice(0, 10));
   }, []);
 
   const clearHistory = useCallback(() => {
