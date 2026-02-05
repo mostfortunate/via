@@ -10,7 +10,7 @@ import { type HistoryItem } from "@/app/types/models";
 import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
 import { MethodSelector } from "@/components/home/request-form/method-selector";
 import { Actions } from "@/components/home/request-form/actions";
-import { RequestHistoryRow } from "@/components/home/request-form/history-row";
+import { HistoryList } from "@/components/home/request-form/history-list";
 import { AddressBar } from "@/components/home/request-form/address-bar";
 
 interface RequestFormProps {
@@ -74,18 +74,10 @@ const RequestForm = ({
         )}
       >
         <div>
-          <div className="max-h-125 overflow-y-auto py-1">
-            {requestHistory.map((item, index) => (
-              <button
-                key={index}
-                role="menuitem"
-                onClick={() => handleHistoryItemClick(item)}
-                className="hover:bg-accent flex w-full items-center justify-between rounded-sm px-3 py-1.5"
-              >
-                <RequestHistoryRow item={item} />
-              </button>
-            ))}
-          </div>
+          <HistoryList
+            requestHistory={requestHistory}
+            handleHistoryItemClick={handleHistoryItemClick}
+          />
         </div>
       </div>
     </div>
