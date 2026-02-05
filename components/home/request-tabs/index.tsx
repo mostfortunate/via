@@ -34,11 +34,17 @@ const RequestTabs = ({
   requestBody,
   onRequestBodyChange,
 }: RequestTabsProps) => {
-  const ignoreJSON = method == "GET";
-  const requestTabs = ["Params", "Headers", "JSON"];
+  const ignoreBody = method == "GET";
+  const requestTabs = ignoreBody
+    ? ["Params", "Headers"]
+    : ["Params", "Headers", "JSON"];
 
   return (
-    <Tabs defaultValue={requestTabs[0]} className="w-full">
+    <Tabs
+      key={ignoreBody ? "no-body" : "body"}
+      defaultValue={requestTabs[0]}
+      className="w-full"
+    >
       <TabsList variant="line">
         {requestTabs.map((tab) => (
           <TabsTrigger key={tab} value={tab}>
@@ -58,11 +64,12 @@ const RequestTabs = ({
         deleteHeader={deleteHeader}
         setHeaders={setHeaders}
       />
-      <BodyTab
-        ignoreJSON={ignoreJSON}
-        requestBody={requestBody}
-        onRequestBodyChange={onRequestBodyChange}
-      />
+      {!ignoreBody && (
+        <BodyTab
+          requestBody={requestBody}
+          onRequestBodyChange={onRequestBodyChange}
+        />
+      )}
     </Tabs>
   );
 };

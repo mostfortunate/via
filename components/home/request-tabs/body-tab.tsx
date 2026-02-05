@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { TabsContent } from "@/components/ui/tabs";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import {
   Card,
@@ -18,39 +17,21 @@ import {
 } from "@/components/ui/tooltip";
 
 import JSONEditor from "@/components/json-editor";
-import { ClipboardPaste, Trash2, AlertTriangleIcon } from "lucide-react";
+import { ClipboardPaste, Trash2 } from "lucide-react";
 
 export interface BodyTabProps {
-  ignoreJSON: boolean;
   requestBody: string;
   onRequestBodyChange: (body: string) => void;
 }
 
-export const BodyTab = ({
-  ignoreJSON,
-  requestBody,
-  onRequestBodyChange,
-}: BodyTabProps) => (
+export const BodyTab = ({ requestBody, onRequestBodyChange }: BodyTabProps) => (
   <TabsContent value="JSON">
     <Card>
       <CardHeader className="flex flex-row justify-between">
         <div className="flex flex-col gap-3">
           <CardTitle>Request Body</CardTitle>
           <CardDescription>
-            {ignoreJSON ? (
-              <Alert variant="warning">
-                <AlertTriangleIcon />
-                <AlertTitle className="font-bold">Warning</AlertTitle>
-                <AlertDescription>
-                  <p>
-                    Request body will not be sent for <strong>GET</strong>{" "}
-                    requests.
-                  </p>
-                </AlertDescription>
-              </Alert>
-            ) : (
-              <p>Edit the JSON request body.</p>
-            )}
+            <p>Edit the JSON request body.</p>
           </CardDescription>
         </div>
         <div className="flex flex-row gap-2">
