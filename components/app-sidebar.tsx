@@ -12,6 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuSub,
   SidebarRail,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
 
 import {
@@ -262,6 +263,12 @@ export default function AppSidebar({ ...props }: AppSidebarProps) {
           );
         })}
       </SidebarContent>
+      <SidebarFooter>
+        <Button className="mb-2 w-full justify-center" variant="outline">
+          <Plus className="size-4" />
+          Add Collection
+        </Button>
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
