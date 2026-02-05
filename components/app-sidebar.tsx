@@ -18,17 +18,34 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 
+import { type CollectionEndpoint } from "@/app/types/models";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Folder, Plus, Ellipsis } from "lucide-react";
 
 type Collection = {
   name: string;
-  endpoints: string[];
+  endpoints: CollectionEndpoint[];
 };
 
 const data: Collection[] = [
-  { name: "Drafts", endpoints: ["My First Request"] },
-  { name: "FindEats", endpoints: ["Restaurants", "Onboard"] },
+  {
+    name: "Drafts",
+    endpoints: [
+      {
+        id: "1",
+        name: "My First Request",
+        method: "GET",
+        url: "/first-request",
+      },
+    ],
+  },
+  {
+    name: "FindEats",
+    endpoints: [
+      { id: "2", name: "Restaurants", method: "GET", url: "/restaurants" },
+      { id: "3", name: "Onboard", method: "POST", url: "/onboard" },
+    ],
+  },
 ];
 
 export default function AppSidebar({
@@ -85,14 +102,23 @@ export default function AppSidebar({
                     </div>
                     <CollapsibleContent>
                       <SidebarMenuSub>
-                        {group.endpoints.map((item) => (
-                          <SidebarMenuButton
-                            key={item}
-                            className="rounded-xs data-[active=true]:bg-transparent"
-                          >
-                            {item}
-                          </SidebarMenuButton>
-                        ))}
+                        {group.endpoints.map((item) => {
+                          const itemColorVar = `--http-method-${item.method.toLowerCase()}`;
+                          return (
+                            <SidebarMenuButton
+                              key={item.id}
+                              className="flex flex-row items-center justify-between rounded-xs data-[active=true]:bg-transparent"
+                            >
+                              <span>{item.name}</span>
+                              <span
+                                className="font-mono text-xs font-semibold"
+                                style={{ color: `var(${itemColorVar})` }}
+                              >
+                                {item.method}
+                              </span>
+                            </SidebarMenuButton>
+                          );
+                        })}
                       </SidebarMenuSub>
                     </CollapsibleContent>
                   </Collapsible>

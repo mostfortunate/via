@@ -1,3 +1,10 @@
+export type CollectionEndpoint = {
+  id: string;
+  name: string;
+  method: HTTPMethod;
+  url: string;
+}
+
 export type HistoryItem = {
     method: HTTPMethod;
     url: string;
