@@ -114,13 +114,6 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
       }
       return next;
     });
-
-    if (open) {
-      const defaultEndpointId = resolveDefaultEndpointId(collection);
-      if (defaultEndpointId) {
-        selectEndpoint(defaultEndpointId);
-      }
-    }
   };
 
   const handleEndpointSelect = (endpointId: string) => {
