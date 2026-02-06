@@ -43,6 +43,7 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
     selectEndpoint,
     addCollection,
     addEndpoint,
+    deleteEndpoint,
     draft,
   } = useWorkspace();
   const [expandedCollectionIds, setExpandedCollectionIds] = useState<
@@ -158,6 +159,13 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
     });
   };
 
+  const handleDeleteEndpoint = (
+    collectionId: string,
+    endpointId: string,
+  ) => {
+    deleteEndpoint(collectionId, endpointId);
+  };
+
   return (
     <Sidebar {...sidebarProps}>
       <SidebarContent className="mt-2 gap-0">
@@ -270,7 +278,17 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
                                     sideOffset={62}
                                   >
                                     <DropdownMenuItem>Rename</DropdownMenuItem>
-                                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                                    <DropdownMenuItem
+                                      onClick={(event) => {
+                                        event.stopPropagation();
+                                        handleDeleteEndpoint(
+                                          collection.id,
+                                          endpoint.id,
+                                        );
+                                      }}
+                                    >
+                                      Delete
+                                    </DropdownMenuItem>
                                   </DropdownMenuContent>
                                 </DropdownMenu>
                                 <span

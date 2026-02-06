@@ -18,6 +18,7 @@ export type WorkspaceContextValue = {
   selectEndpoint: (endpointId: string) => void;
   addCollection: (collection: Collection) => void;
   addEndpoint: (collectionId: string, endpoint: CollectionEndpoint) => void;
+  deleteEndpoint: (collectionId: string, endpointId: string) => void;
 };
 
 const WorkspaceContext = createContext<WorkspaceContextValue | null>(null);
@@ -38,6 +39,7 @@ export function WorkspaceProvider({
     getEndpointById,
     addCollection,
     addEndpoint,
+    deleteEndpoint,
   } = useCollections(initialCollections);
 
   const {
@@ -95,6 +97,7 @@ export function WorkspaceProvider({
     selectEndpoint,
     addCollection,
     addEndpoint,
+    deleteEndpoint,
     draft,
     draftActions,
   };
