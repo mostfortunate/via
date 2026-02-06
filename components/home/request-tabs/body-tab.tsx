@@ -42,6 +42,11 @@ export const BodyTab = ({ requestBody, onRequestBodyChange }: BodyTabProps) => (
                   variant="secondary"
                   size="icon-xs"
                   aria-label="Paste request body"
+                  onClick={() => {
+                    navigator.clipboard.readText().then((text) => {
+                      onRequestBodyChange(text);
+                    });
+                  }}
                 >
                   <ClipboardPaste />
                 </Button>
@@ -58,6 +63,7 @@ export const BodyTab = ({ requestBody, onRequestBodyChange }: BodyTabProps) => (
                   variant="destructive"
                   size="icon-xs"
                   aria-label="Remove request body"
+                  onClick={() => onRequestBodyChange("")}
                 >
                   <Trash2 />
                 </Button>
