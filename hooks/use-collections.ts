@@ -7,6 +7,7 @@ export type UseCollectionsResult = {
   selectEndpoint: (endpointId: string) => void;
   getEndpointById: (endpointId: string) => CollectionEndpoint | null;
   addCollection: (collection: Collection) => void;
+  addEndpoint: (collectionId: string, endpoint: CollectionEndpoint) => void;
 };
 
 export function useCollections(
@@ -37,11 +38,25 @@ export function useCollections(
     setCollections((prev) => [...prev, collection]);
   };
 
+  const addEndpoint = (collectionId: string, endpoint: CollectionEndpoint) => {
+    setCollections((prev) =>
+      prev.map((collection) =>
+        collection.id === collectionId
+          ? {
+              ...collection,
+              endpoints: [...collection.endpoints, endpoint],
+            }
+          : collection,
+      ),
+    );
+  };
+
   return {
     collections,
     activeEndpointId,
     selectEndpoint,
     getEndpointById,
     addCollection,
+    addEndpoint,
   };
 }

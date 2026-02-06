@@ -36,6 +36,8 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
     activeEndpointId,
     selectEndpoint,
     addCollection,
+    addEndpoint,
+    draft,
   } = useWorkspace();
   const [expandedCollectionIds, setExpandedCollectionIds] = useState<
     Set<string>
@@ -141,6 +143,15 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
     });
   };
 
+  const handleAddEndpoint = (collectionId: string) => {
+    addEndpoint(collectionId, {
+      id: crypto.randomUUID(),
+      name: "Untitled",
+      method: draft.method,
+      url: draft.url,
+    });
+  };
+
   return (
     <Sidebar {...sidebarProps}>
       <SidebarContent className="mt-2 gap-0">
@@ -192,7 +203,10 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
                           variant="ghost"
                           size="icon"
                           className="pointer-events-none size-7 opacity-0 transition-opacity group-hover/collection:pointer-events-auto group-hover/collection:opacity-100"
-                          onClick={(event) => event.stopPropagation()}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handleAddEndpoint(collection.id);
+                          }}
                           aria-label="Add endpoint"
                         >
                           <Plus className="size-4" />

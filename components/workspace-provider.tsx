@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from "react";
 
-import { type Collection } from "@/app/types/models";
+import { type Collection, type CollectionEndpoint } from "@/app/types/models";
 import { useCollections } from "@/hooks/use-collections";
 import {
   useRequestDraft,
@@ -17,6 +17,7 @@ export type WorkspaceContextValue = {
   draftActions: Omit<RequestDraftActions, "draft">;
   selectEndpoint: (endpointId: string) => void;
   addCollection: (collection: Collection) => void;
+  addEndpoint: (collectionId: string, endpoint: CollectionEndpoint) => void;
 };
 
 const WorkspaceContext = createContext<WorkspaceContextValue | null>(null);
@@ -36,6 +37,7 @@ export function WorkspaceProvider({
     selectEndpoint: selectEndpointBase,
     getEndpointById,
     addCollection,
+    addEndpoint,
   } = useCollections(initialCollections);
 
   const {
@@ -92,6 +94,7 @@ export function WorkspaceProvider({
     activeEndpointId,
     selectEndpoint,
     addCollection,
+    addEndpoint,
     draft,
     draftActions,
   };
