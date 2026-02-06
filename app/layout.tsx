@@ -4,7 +4,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ModeToggle } from "@/components/mode-toggle";
 import AppSidebar from "@/components/app-sidebar";
 import Footer from "@/components/footer";
 import "./globals.css";
@@ -48,9 +47,6 @@ export default function RootLayout({
               <div className="flex-1">{children}</div>
               <Footer />
             </main>
-            <div className="fixed right-0 bottom-0 p-4">
-              <ModeToggle />
-            </div>
             <Toaster visibleToasts={3} richColors />
           </SidebarProvider>
         </ThemeProvider>

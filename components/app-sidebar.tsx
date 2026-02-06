@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useMemo, useCallback, type ComponentProps } from "react";
+import { cn } from "@/lib/utils";
+import { type Collection } from "@/app/types/models";
 
 import {
   Sidebar,
@@ -22,9 +24,9 @@ import {
 } from "@/components/ui/collapsible";
 
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/mode-toggle";
+
 import { ChevronRight, Folder, Plus, Ellipsis } from "lucide-react";
-import { type Collection } from "@/app/types/models";
-import { cn } from "@/lib/utils";
 
 export interface AppSidebarProps extends ComponentProps<typeof Sidebar> {
   data: Collection[];
@@ -171,7 +173,7 @@ export default function AppSidebar({ ...props }: AppSidebarProps) {
                         <SidebarMenuButton className="min-w-0 flex-1 hover:bg-transparent hover:text-inherit">
                           <span className="relative flex size-4 items-center justify-center">
                             <Folder
-                              className="size-4 transition-opacity group-hover/collection:opacity-0 text-primary"
+                              className="text-primary size-4 transition-opacity group-hover/collection:opacity-0"
                               fill="#5e17eb"
                             />
                             <ChevronRight
@@ -181,7 +183,9 @@ export default function AppSidebar({ ...props }: AppSidebarProps) {
                               )}
                             />
                           </span>
-                          <span className="truncate font-semibold">{collection.name}</span>
+                          <span className="truncate font-semibold">
+                            {collection.name}
+                          </span>
                         </SidebarMenuButton>
                       </CollapsibleTrigger>
                       <span className="ml-auto flex items-center gap-0">
@@ -266,11 +270,12 @@ export default function AppSidebar({ ...props }: AppSidebarProps) {
           );
         })}
       </SidebarContent>
-      <SidebarFooter>
-        <Button className="mb-2 w-full justify-center" variant="outline">
+      <SidebarFooter className="mb-2 flex w-full flex-row gap-2">
+        <Button variant="outline" className="flex-1">
           <Plus className="size-4" />
           Add Collection
         </Button>
+        <ModeToggle />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
