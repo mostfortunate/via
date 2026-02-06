@@ -41,6 +41,7 @@ export const HeadersTab = ({
           <HeaderRow
             key={index}
             header={header}
+            count={index + 1}
             onKeyChange={(value) => updateHeader(index, { key: value })}
             onValueChange={(value) => updateHeader(index, { value })}
             onDelete={() => deleteHeader(index)}
