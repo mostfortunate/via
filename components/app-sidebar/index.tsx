@@ -23,14 +23,6 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -38,8 +30,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import AppSidebarFooter from "@/components/app-sidebar/sidebar-footer";
+import RenameDialog from "@/components/app-sidebar/rename-dialog";
 
 import { ChevronRight, Folder, Plus, Ellipsis } from "lucide-react";
 
@@ -389,73 +381,22 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
           );
         })}
       </SidebarContent>
-      <Dialog open={renameDialogOpen} onOpenChange={setRenameDialogOpen}>
-        <DialogContent>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              handleRenameSubmit();
-            }}
-            className="grid gap-4"
-          >
-            <DialogHeader>
-              <DialogTitle>Rename endpoint</DialogTitle>
-            </DialogHeader>
-            <Input
-              value={renameValue}
-              onChange={(event) => setRenameValue(event.target.value)}
-              placeholder="Endpoint name"
-            />
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setRenameDialogOpen(false)}
-                >
-                  Cancel
-                </Button>
-              </DialogClose>
-              <Button type="submit">Save</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-      <Dialog
+      <RenameDialog
+        open={renameDialogOpen}
+        onOpenChange={setRenameDialogOpen}
+        kind="endpoint"
+        value={renameValue}
+        onValueChange={setRenameValue}
+        onSave={handleRenameSubmit}
+      />
+      <RenameDialog
         open={collectionRenameDialogOpen}
         onOpenChange={setCollectionRenameDialogOpen}
-      >
-        <DialogContent>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              handleCollectionRenameSubmit();
-            }}
-            className="grid gap-4"
-          >
-            <DialogHeader>
-              <DialogTitle>Rename collection</DialogTitle>
-            </DialogHeader>
-            <Input
-              value={collectionRenameValue}
-              onChange={(event) => setCollectionRenameValue(event.target.value)}
-              placeholder="Collection name"
-            />
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setCollectionRenameDialogOpen(false)}
-                >
-                  Cancel
-                </Button>
-              </DialogClose>
-              <Button type="submit">Save</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+        kind="collection"
+        value={collectionRenameValue}
+        onValueChange={setCollectionRenameValue}
+        onSave={handleCollectionRenameSubmit}
+      />
       <AppSidebarFooter onAddCollection={handleAddCollection} />
       <SidebarRail />
     </Sidebar>
