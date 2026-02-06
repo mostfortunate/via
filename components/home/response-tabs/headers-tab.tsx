@@ -13,7 +13,12 @@ export const HeadersTab = ({ headers }: HeadersTabProps) => (
     <Card>
       <CardContent className="flex flex-col gap-2">
         {Object.entries(headers).map(([key, value], index) => (
-          <HeaderRow key={index} headerKey={key} headerValue={value} />
+          <HeaderRow
+            key={index}
+            count={index + 1}
+            headerKey={key}
+            headerValue={value}
+          />
         ))}
       </CardContent>
     </Card>
