@@ -16,6 +16,7 @@ export type WorkspaceContextValue = {
   draft: RequestDraft;
   draftActions: Omit<RequestDraftActions, "draft">;
   selectEndpoint: (endpointId: string) => void;
+  addCollection: (collection: Collection) => void;
 };
 
 const WorkspaceContext = createContext<WorkspaceContextValue | null>(null);
@@ -34,6 +35,7 @@ export function WorkspaceProvider({
     activeEndpointId,
     selectEndpoint: selectEndpointBase,
     getEndpointById,
+    addCollection,
   } = useCollections(initialCollections);
 
   const {
@@ -55,19 +57,19 @@ export function WorkspaceProvider({
     selectEndpointBase(endpointId);
     const endpoint = getEndpointById(endpointId);
     if (!endpoint) return;
-    
+
     // build the url by combining collection's baseUrl and endpoint's path, make sure that there's exactly one slash between them
     const collection = collections.find((col) =>
       col.endpoints.some((ep) => ep.id === endpointId),
     );
-    
+
     const baseUrl = collection?.baseUrl || "";
     const path = endpoint.url || "";
     const url =
       baseUrl.endsWith("/") && path.startsWith("/")
         ? baseUrl + path.slice(1)
         : baseUrl + path;
-    
+
     loadFromEndpoint(endpoint.method, url);
   };
 
@@ -89,6 +91,7 @@ export function WorkspaceProvider({
     collections,
     activeEndpointId,
     selectEndpoint,
+    addCollection,
     draft,
     draftActions,
   };

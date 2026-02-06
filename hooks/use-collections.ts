@@ -6,12 +6,14 @@ export type UseCollectionsResult = {
   activeEndpointId: string | null;
   selectEndpoint: (endpointId: string) => void;
   getEndpointById: (endpointId: string) => CollectionEndpoint | null;
+  addCollection: (collection: Collection) => void;
 };
 
 export function useCollections(
   initialCollections: Collection[] = [],
 ): UseCollectionsResult {
-  const [collections] = useState<Collection[]>(initialCollections);
+  const [collections, setCollections] =
+    useState<Collection[]>(initialCollections);
   const [activeEndpointId, setActiveEndpointId] = useState<string | null>(null);
 
   const endpointLookup = () => {
@@ -31,10 +33,15 @@ export function useCollections(
   const getEndpointById = (endpointId: string) =>
     endpointLookup().get(endpointId) ?? null;
 
+  const addCollection = (collection: Collection) => {
+    setCollections((prev) => [...prev, collection]);
+  };
+
   return {
     collections,
     activeEndpointId,
     selectEndpoint,
     getEndpointById,
+    addCollection,
   };
 }

@@ -35,6 +35,7 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
     collections: data,
     activeEndpointId,
     selectEndpoint,
+    addCollection,
   } = useWorkspace();
   const [expandedCollectionIds, setExpandedCollectionIds] = useState<
     Set<string>
@@ -119,6 +120,25 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
   const handleEndpointSelect = (endpointId: string) => {
     selectEndpoint(endpointId);
     setLastSelectedEndpointId(endpointId);
+  };
+
+  const handleAddCollection = () => {
+    const baseName = "New Collection";
+    const namePattern = new RegExp(`^${baseName}(?: (\\d+))?$`);
+    const existingSuffixes = data
+      .map((collection) => collection.name.match(namePattern))
+      .filter((match): match is RegExpMatchArray => match !== null)
+      .map((match) => Number(match[1] ?? 1));
+    const nextSuffix =
+      existingSuffixes.length > 0 ? Math.max(...existingSuffixes) + 1 : 1;
+    const name = nextSuffix === 1 ? baseName : `${baseName} ${nextSuffix}`;
+
+    addCollection({
+      id: crypto.randomUUID(),
+      name,
+      baseUrl: "",
+      endpoints: [],
+    });
   };
 
   return (
@@ -239,7 +259,11 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
         })}
       </SidebarContent>
       <SidebarFooter className="mb-2 flex w-full flex-row gap-2">
-        <Button variant="outline" className="flex-1">
+        <Button
+          variant="outline"
+          className="flex-1"
+          onClick={handleAddCollection}
+        >
           <Plus className="size-4" />
           Add Collection
         </Button>
