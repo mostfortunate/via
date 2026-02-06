@@ -32,8 +32,9 @@ import {
 import { Button } from "@/components/ui/button";
 import AppSidebarFooter from "@/components/app-sidebar/sidebar-footer";
 import RenameDialog from "@/components/app-sidebar/rename-dialog";
+import CollectionActions from "@/components/app-sidebar/collection-actions";
 
-import { ChevronRight, Folder, Plus, Ellipsis } from "lucide-react";
+import { ChevronRight, Folder, Ellipsis } from "lucide-react";
 
 export type AppSidebarProps = ComponentProps<typeof Sidebar>;
 export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
@@ -255,37 +256,15 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
                           </span>
                         </SidebarMenuButton>
                       </CollapsibleTrigger>
-                      <span className="ml-auto flex items-center gap-0">
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="pointer-events-none size-7 opacity-0 transition-opacity group-hover/collection:pointer-events-auto group-hover/collection:opacity-100"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            handleCollectionRenameStart(
-                              collection.id,
-                              collection.name,
-                            );
-                          }}
-                          aria-label="Collection actions"
-                        >
-                          <Ellipsis className="size-4" />
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="pointer-events-none size-7 opacity-0 transition-opacity group-hover/collection:pointer-events-auto group-hover/collection:opacity-100"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            handleAddEndpoint(collection.id);
-                          }}
-                          aria-label="Add endpoint"
-                        >
-                          <Plus className="size-4" />
-                        </Button>
-                      </span>
+                      <CollectionActions
+                        onRename={() =>
+                          handleCollectionRenameStart(
+                            collection.id,
+                            collection.name,
+                          )
+                        }
+                        onAddEndpoint={() => handleAddEndpoint(collection.id)}
+                      />
                     </SidebarMenuItem>
                     <CollapsibleContent>
                       <SidebarMenuSub className="relative mx-0 translate-x-0 border-l-0 px-0">
