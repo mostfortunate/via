@@ -30,6 +30,38 @@ export function keyValueArrayToObject(
   return obj;
 }
 
+export function keyValueArrayToSearchParams(
+  arr: { key: string; value: string }[],
+): URLSearchParams {
+  const params = new URLSearchParams();
+  arr.forEach(({ key, value }) => {
+    if (key) {
+      params.append(key, value);
+    }
+  });
+  return params;
+}
+
+export function keyValueArrayToHeaderValues(
+  arr: { key: string; value: string }[],
+): Record<string, string | string[]> {
+  const headers: Record<string, string | string[]> = {};
+  arr.forEach(({ key, value }) => {
+    if (!key) return;
+
+    const existing = headers[key];
+    if (existing === undefined) {
+      headers[key] = value;
+      return;
+    }
+
+    headers[key] = Array.isArray(existing)
+      ? [...existing, value]
+      : [existing, value];
+  });
+  return headers;
+}
+
 export function stringifyResponseBody(
   data: string | number | boolean | object | null | undefined,
 ): string {
@@ -55,7 +87,7 @@ export function getStatusColorClass(code: number) {
   if (code >= 300 && code < 400) return "text-yellow-500";
   if (code >= 400) return "text-red-500";
   return "text-muted-foreground";
-};
+}
 
 export type KeyValueRow = { key: string; value: string };
 

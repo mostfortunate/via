@@ -3,9 +3,10 @@ import { type ExternalToast, toast } from "sonner";
 import { type HistoryItem } from "@/app/types/models";
 
 import {
-  keyValueArrayToObject,
   getStatusText,
   hasEmptyKeys,
+  keyValueArrayToHeaderValues,
+  keyValueArrayToSearchParams,
 } from "@/lib/utils";
 
 // type guard for AxiosError with response
@@ -102,8 +103,8 @@ export function buildAxiosConfig(params: {
   return {
     url: params.url,
     method: params.method.toLowerCase(),
-    params: keyValueArrayToObject(params.queryParams),
-    headers: keyValueArrayToObject(params.headers),
+    params: keyValueArrayToSearchParams(params.queryParams),
+    headers: keyValueArrayToHeaderValues(params.headers),
     data: params.data,
     validateStatus: () => true,
   };

@@ -8,17 +8,12 @@ import {
   validateUrl,
 } from "@/hooks/use-http-request/helpers";
 
-import {
-  getStatusText,
-  hasEmptyKeys,
-  keyValueArrayToObject,
-} from "@/lib/utils";
+import { getStatusText, hasEmptyKeys } from "@/lib/utils";
 
 import { type AxiosResponse } from "axios";
 
 jest.mock("@/lib/utils", () => ({
-  keyValueArrayToObject: jest.fn(),
-  stringifyResponseBody: jest.fn(),
+  ...jest.requireActual("@/lib/utils"),
   getStatusText: jest.fn(),
   hasEmptyKeys: jest.fn(),
 }));
@@ -74,8 +69,7 @@ describe("useHttpRequest pure helpers", () => {
         name: "both headers and query params empty",
         headersEmpty: true,
         queryEmpty: true,
-        expectedError:
-          "Query parameters and headers must have non-empty keys.",
+        expectedError: "Query parameters and headers must have non-empty keys.",
       },
       {
         name: "only headers empty",
@@ -97,36 +91,35 @@ describe("useHttpRequest pure helpers", () => {
       },
     ];
 
-    it.each(cases)("handles $name", ({
-      headersEmpty,
-      queryEmpty,
-      expectedError,
-    }) => {
-      // mock by argument to avoid relying on call order
-      (hasEmptyKeys as jest.Mock).mockImplementation(
-        (input: { key: string; value: string }[]) => {
-          if (input === headers) {
-            return headersEmpty;
-          }
-          if (input === queryParams) {
-            return queryEmpty;
-          }
-          return false;
-        },
-      );
+    it.each(cases)(
+      "handles $name",
+      ({ headersEmpty, queryEmpty, expectedError }) => {
+        // mock by argument to avoid relying on call order
+        (hasEmptyKeys as jest.Mock).mockImplementation(
+          (input: { key: string; value: string }[]) => {
+            if (input === headers) {
+              return headersEmpty;
+            }
+            if (input === queryParams) {
+              return queryEmpty;
+            }
+            return false;
+          },
+        );
 
-      const result = validateKeyValueInputs(headers, queryParams);
+        const result = validateKeyValueInputs(headers, queryParams);
 
-      // All four combinations are covered explicitly.
-      if (expectedError) {
-        expect(result.ok).toBe(false);
-        if (!result.ok) {
-          expect(result.error).toBe(expectedError);
+        // all four combinations are covered explicitly
+        if (expectedError) {
+          expect(result.ok).toBe(false);
+          if (!result.ok) {
+            expect(result.error).toBe(expectedError);
+          }
+        } else {
+          expect(result.ok).toBe(true);
         }
-      } else {
-        expect(result.ok).toBe(true);
-      }
-    });
+      },
+    );
   });
 
   describe("parseJsonBody", () => {
@@ -156,25 +149,30 @@ describe("useHttpRequest pure helpers", () => {
   });
 
   describe("buildAxiosConfig", () => {
-    it("builds axios config with normalized method and mapped params/headers", () => {
-      (keyValueArrayToObject as jest.Mock)
-        .mockImplementationOnce(() => ({ p: "1" }))
-        .mockImplementationOnce(() => ({ h: "2" }));
-
+    it("builds axios config with normalized method and preserves duplicates", () => {
       const config = buildAxiosConfig({
         url: "https://example.com",
         method: "GET",
-        queryParams: [{ key: "p", value: "1" }],
-        headers: [{ key: "h", value: "2" }],
+        queryParams: [
+          { key: "p", value: "1" },
+          { key: "p", value: "2" },
+        ],
+        headers: [
+          { key: "h", value: "2" },
+          { key: "h", value: "3" },
+        ],
         data: { ok: true },
       });
 
-      expect(keyValueArrayToObject).toHaveBeenCalledTimes(2);
+      expect(config.params).toBeInstanceOf(URLSearchParams);
+      expect((config.params as URLSearchParams).getAll("p")).toEqual([
+        "1",
+        "2",
+      ]);
       expect(config).toMatchObject({
         url: "https://example.com",
         method: "get",
-        params: { p: "1" },
-        headers: { h: "2" },
+        headers: { h: ["2", "3"] },
         data: { ok: true },
       });
       expect(config.validateStatus()).toBe(true);
