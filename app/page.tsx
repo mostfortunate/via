@@ -149,7 +149,7 @@ export default function Home() {
               <KbdGroup>
                 <Kbd>Ctrl or ⌘</Kbd>
                 <span>+</span>
-                <Kbd>Enter</Kbd>
+                <Kbd>↵</Kbd>
               </KbdGroup>
             </TooltipTrigger>
             <TooltipContent>
