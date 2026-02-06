@@ -37,20 +37,37 @@ export type ValidationResult<T = undefined> =
   | { ok: true; value?: T }
   | { ok: false; error: string };
 
-export function validateUrl(url: string): ValidationResult<URL> {
-  if (!url) {
-    return { ok: false, error: "Please enter a URL." };
+export type UrlValidationResult<T> =
+  | { ok: true; value: T }
+  | { ok: false; error: string };
+
+export function validateUrl(url: string): UrlValidationResult<URL> {
+  const trimmedUrl = url.trim();
+  if (!trimmedUrl) {
+    return { ok: false, error: "The address bar is empty." };
   }
 
   try {
-    const parsedUrl = new URL(url);
-    if (!/^https?:$/.test(parsedUrl.protocol)) {
+    const hasHttpScheme = /^https?:\/\//i.test(trimmedUrl);
+    const hasAnyScheme = /^[a-z][a-z0-9+.-]*:\/\//i.test(trimmedUrl);
+
+    // case 1: scheme, other -> deny
+    if (hasAnyScheme && !hasHttpScheme) {
       return {
         ok: false,
         error: "Only HTTP and HTTPS protocols are supported.",
       };
     }
-    return { ok: true, value: parsedUrl };
+
+    // case 2: scheme, http -> use http || case 3: scheme, https -> use https
+    if (hasHttpScheme) {
+      return { ok: true, value: new URL(trimmedUrl) };
+    }
+
+    const isLocalhost = /^localhost(?::|\/|$)/i.test(trimmedUrl);
+    // case 4: no scheme, localhost -> use http | case 5: no scheme, not localhost -> use https
+    const normalizedUrl = `${isLocalhost ? "http" : "https"}://${trimmedUrl}`;
+    return { ok: true, value: new URL(normalizedUrl) };
   } catch {
     return { ok: false, error: "Please enter a valid URL." };
   }
