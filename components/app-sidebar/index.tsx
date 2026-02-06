@@ -15,7 +15,6 @@ import {
   SidebarMenuButton,
   SidebarMenuSub,
   SidebarRail,
-  SidebarFooter,
 } from "@/components/ui/sidebar";
 
 import {
@@ -40,7 +39,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ModeToggle } from "@/components/mode-toggle";
+import AppSidebarFooter from "@/components/app-sidebar/sidebar-footer";
 
 import { ChevronRight, Folder, Plus, Ellipsis } from "lucide-react";
 
@@ -457,17 +456,7 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
           </form>
         </DialogContent>
       </Dialog>
-      <SidebarFooter className="mb-2 flex w-full flex-row gap-2">
-        <Button
-          variant="outline"
-          className="flex-1"
-          onClick={handleAddCollection}
-        >
-          <Plus className="size-4" />
-          Add Collection
-        </Button>
-        <ModeToggle />
-      </SidebarFooter>
+      <AppSidebarFooter onAddCollection={handleAddCollection} />
       <SidebarRail />
     </Sidebar>
   );
