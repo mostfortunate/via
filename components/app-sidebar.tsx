@@ -24,6 +24,13 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -31,6 +38,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ModeToggle } from "@/components/mode-toggle";
 
 import { ChevronRight, Folder, Plus, Ellipsis } from "lucide-react";
@@ -44,6 +52,7 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
     addCollection,
     addEndpoint,
     deleteEndpoint,
+    renameEndpoint,
     draft,
   } = useWorkspace();
   const [expandedCollectionIds, setExpandedCollectionIds] = useState<
@@ -54,6 +63,12 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
   const [lastSelectedEndpointId, setLastSelectedEndpointId] = useState<
     string | null
   >(null);
+  const [renameDialogOpen, setRenameDialogOpen] = useState(false);
+  const [renameValue, setRenameValue] = useState("");
+  const [renameTarget, setRenameTarget] = useState<{
+    collectionId: string;
+    endpointId: string;
+  } | null>(null);
 
   const endpointLookup = new Map<string, { collectionId: string }>();
   data.forEach((collection) => {
@@ -161,6 +176,30 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
 
   const handleDeleteEndpoint = (collectionId: string, endpointId: string) => {
     deleteEndpoint(collectionId, endpointId);
+  };
+
+  const handleRenameStart = (
+    collectionId: string,
+    endpointId: string,
+    currentName: string,
+  ) => {
+    setRenameTarget({ collectionId, endpointId });
+    setRenameValue(currentName);
+    setRenameDialogOpen(true);
+  };
+
+  const handleRenameSubmit = () => {
+    if (!renameTarget) {
+      return;
+    }
+
+    const nextName = renameValue.trim() || "Untitled";
+    renameEndpoint(
+      renameTarget.collectionId,
+      renameTarget.endpointId,
+      nextName,
+    );
+    setRenameDialogOpen(false);
   };
 
   return (
@@ -274,7 +313,18 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
                                     align="start"
                                     sideOffset={62}
                                   >
-                                    <DropdownMenuItem>Rename</DropdownMenuItem>
+                                    <DropdownMenuItem
+                                      onClick={(event) => {
+                                        event.stopPropagation();
+                                        handleRenameStart(
+                                          collection.id,
+                                          endpoint.id,
+                                          endpoint.name,
+                                        );
+                                      }}
+                                    >
+                                      Rename
+                                    </DropdownMenuItem>
                                     <DropdownMenuItem
                                       onClick={(event) => {
                                         event.stopPropagation();
@@ -307,6 +357,30 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
           );
         })}
       </SidebarContent>
+      <Dialog open={renameDialogOpen} onOpenChange={setRenameDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Rename endpoint</DialogTitle>
+          </DialogHeader>
+          <Input
+            value={renameValue}
+            onChange={(event) => setRenameValue(event.target.value)}
+            placeholder="Endpoint name"
+          />
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setRenameDialogOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button type="button" onClick={handleRenameSubmit}>
+              Save
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <SidebarFooter className="mb-2 flex w-full flex-row gap-2">
         <Button
           variant="outline"
