@@ -22,19 +22,13 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
-import { Button } from "@/components/ui/button";
 import AppSidebarFooter from "@/components/app-sidebar/sidebar-footer";
 import RenameDialog from "@/components/app-sidebar/rename-dialog";
 import CollectionActions from "@/components/app-sidebar/collection-actions";
+import EndpointActions from "@/components/app-sidebar/endpoint-actions";
 
-import { ChevronRight, Folder, Ellipsis } from "lucide-react";
+import { ChevronRight, Folder } from "lucide-react";
 
 export type AppSidebarProps = ComponentProps<typeof Sidebar>;
 export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
@@ -296,51 +290,21 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
                                 </span>
                               </SidebarMenuButton>
                               <span className="ml-auto flex items-center justify-end gap-1">
-                                <DropdownMenu>
-                                  <DropdownMenuTrigger asChild>
-                                    <Button
-                                      type="button"
-                                      variant="ghost"
-                                      size="icon"
-                                      className="pointer-events-none size-7 opacity-0 transition-opacity group-focus-within/endpoint:pointer-events-auto group-focus-within/endpoint:opacity-100 group-hover/endpoint:pointer-events-auto group-hover/endpoint:opacity-100"
-                                      onClick={(event) =>
-                                        event.stopPropagation()
-                                      }
-                                      aria-label="Endpoint actions"
-                                    >
-                                      <Ellipsis className="size-4" />
-                                    </Button>
-                                  </DropdownMenuTrigger>
-                                  <DropdownMenuContent
-                                    side="right"
-                                    align="start"
-                                    sideOffset={62}
-                                  >
-                                    <DropdownMenuItem
-                                      onClick={(event) => {
-                                        event.stopPropagation();
-                                        handleRenameStart(
-                                          collection.id,
-                                          endpoint.id,
-                                          endpoint.name,
-                                        );
-                                      }}
-                                    >
-                                      Rename
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem
-                                      onClick={(event) => {
-                                        event.stopPropagation();
-                                        handleDeleteEndpoint(
-                                          collection.id,
-                                          endpoint.id,
-                                        );
-                                      }}
-                                    >
-                                      Delete
-                                    </DropdownMenuItem>
-                                  </DropdownMenuContent>
-                                </DropdownMenu>
+                                <EndpointActions
+                                  onRename={() =>
+                                    handleRenameStart(
+                                      collection.id,
+                                      endpoint.id,
+                                      endpoint.name,
+                                    )
+                                  }
+                                  onDelete={() =>
+                                    handleDeleteEndpoint(
+                                      collection.id,
+                                      endpoint.id,
+                                    )
+                                  }
+                                />
                                 <span
                                   className="text-muted-foreground group-hover/endpoint:text-sidebar-accent-foreground w-11 font-mono text-xs font-semibold"
                                   style={{ color: `var(${itemColorVar})` }}
