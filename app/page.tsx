@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useHttpRequest } from "@/hooks/use-http-request";
 import { useRequestHistory } from "@/hooks/use-request-history";
@@ -17,7 +17,11 @@ import { type HTTPMethod } from "@/app/types/http";
 import { type QueryParam, type Header } from "@/app/types/models";
 
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import RequestForm from "@/components/home/request-form";
 import RequestTabs from "@/components/home/request-tabs";
@@ -77,6 +81,18 @@ export default function Home() {
     addFromResponse,
     updateEndTime,
   });
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+        event.preventDefault();
+        sendRequest();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [sendRequest]);
 
   return (
     <>
