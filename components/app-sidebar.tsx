@@ -186,7 +186,7 @@ export default function AppSidebar({ ...props }: AppSidebarProps) {
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="pointer-events-none size-7 opacity-0 transition-opacity group-focus-within/collection:pointer-events-auto group-focus-within/collection:opacity-100 group-hover/collection:pointer-events-auto group-hover/collection:opacity-100"
+                          className="pointer-events-none size-7 opacity-0 transition-opacity group-hover/collection:pointer-events-auto group-hover/collection:opacity-100"
                           onClick={(event) => event.stopPropagation()}
                           aria-label="Collection actions"
                         >
@@ -196,7 +196,7 @@ export default function AppSidebar({ ...props }: AppSidebarProps) {
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="pointer-events-none size-7 opacity-0 transition-opacity group-focus-within/collection:pointer-events-auto group-focus-within/collection:opacity-100 group-hover/collection:pointer-events-auto group-hover/collection:opacity-100"
+                          className="pointer-events-none size-7 opacity-0 transition-opacity group-hover/collection:pointer-events-auto group-hover/collection:opacity-100"
                           onClick={(event) => event.stopPropagation()}
                           aria-label="Add endpoint"
                         >
