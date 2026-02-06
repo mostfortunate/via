@@ -53,26 +53,25 @@ export const HeadersTab = ({
         <CardAction className="">
           <Button
             className="font-bold"
-            size="sm"
-            onClick={() =>
-              setHeaders([...headers, { key: "", value: "" }])
-            }
+            variant="secondary"
+            size="icon-sm"
+            onClick={() => setHeaders([...headers, { key: "", value: "" }])}
           >
             <Plus />
-            Add
           </Button>
         </CardAction>
-        {headers.length > 0 && <CardAction>
-          <Button
-            className="font-bold"
-            size="sm"
-            variant="destructive"
-            onClick={() => setHeaders([])}
-          >
-            <Trash2 />
-            Clear
-          </Button>
-        </CardAction>}
+        {headers.length > 0 && (
+          <CardAction>
+            <Button
+              className="font-bold"
+              size="icon-sm"
+              variant="destructive"
+              onClick={() => setHeaders([])}
+            >
+              <Trash2 />
+            </Button>
+          </CardAction>
+        )}
       </CardFooter>
     </Card>
   </TabsContent>

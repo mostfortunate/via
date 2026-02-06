@@ -49,30 +49,29 @@ export const ParamsTab = ({
           />
         ))}
       </CardContent>
-      <CardFooter className="flex flex-row gap-4">
+      <CardFooter className="flex flex-row items-center gap-4">
         <CardAction className="">
           <Button
-            className="font-bold"
-            size="sm"
+            size="icon-sm"
+            variant="secondary"
             onClick={() =>
               setQueryParams([...queryParams, { key: "", value: "" }])
             }
           >
             <Plus />
-            Add
           </Button>
         </CardAction>
-        {queryParams.length > 0 && <CardAction>
-          <Button
-            className="font-bold"
-            size="sm"
-            variant="destructive"
-            onClick={() => setQueryParams([])}
-          >
-            <Trash2 />
-            Clear
-          </Button>
-        </CardAction>}
+        {queryParams.length > 0 && (
+          <CardAction>
+            <Button
+              size="icon-sm"
+              variant="destructive"
+              onClick={() => setQueryParams([])}
+            >
+              <Trash2 />
+            </Button>
+          </CardAction>
+        )}
       </CardFooter>
     </Card>
   </TabsContent>
