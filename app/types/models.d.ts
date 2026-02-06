@@ -14,7 +14,7 @@ export type Collection = {
 export type HistoryItem = {
     method: HTTPMethod;
     url: string;
-    time: string;
+    time: number;
     status: number;
     statusText: string;
 };

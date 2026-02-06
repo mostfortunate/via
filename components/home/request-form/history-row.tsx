@@ -20,7 +20,7 @@ export const RequestHistoryRow = ({ item }: RequestHistoryRowProps) => {
       </div>
       <div className="flex items-center gap-4 font-mono font-medium">
         <span className="text-muted-foreground text-left text-xs">
-          {item.time}
+          {item.time} ms
         </span>
         <span
           className={`flex w-8 justify-center text-xs ${getStatusColorClass(item.status)}`}

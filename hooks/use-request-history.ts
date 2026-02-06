@@ -13,7 +13,7 @@ export function useRequestHistory(initialHistory: HistoryItem[] = []) {
     const item: HistoryItem = {
       method: params.method as HTTPMethod,
       url: params.url,
-      time: `${params.time}ms`,
+      time: params.time,
       status: params.status,
       statusText: params.statusText,
     };
