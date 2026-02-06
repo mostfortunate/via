@@ -50,10 +50,10 @@ const RequestForm = ({
           "has-[[data-slot=input-group-control]:focus-visible]:ring-0",
         )}
       >
-        <AddressBar url={url} onUrlChange={setUrl} />
         <InputGroupAddon align="inline-start">
           <MethodSelector method={method} setMethod={setMethod} />
         </InputGroupAddon>
+        <AddressBar url={url} onUrlChange={setUrl} />
         <InputGroupAddon className="gap-2" align="inline-end">
           <Actions
             isHistoryOpen={isHistoryOpen}
