@@ -10,6 +10,7 @@ type CollectionHeaderProps = {
   name: string;
   isOpen: boolean;
   onRename: () => void;
+  onDelete: () => void;
   onAddEndpoint: () => void;
 };
 
@@ -17,6 +18,7 @@ export default function CollectionHeader({
   name,
   isOpen,
   onRename,
+  onDelete,
   onAddEndpoint,
 }: CollectionHeaderProps) {
   return (
@@ -35,7 +37,11 @@ export default function CollectionHeader({
           <span className="truncate font-semibold">{name}</span>
         </SidebarMenuButton>
       </CollapsibleTrigger>
-      <CollectionActions onRename={onRename} onAddEndpoint={onAddEndpoint} />
+      <CollectionActions
+        onRename={onRename}
+        onDelete={onDelete}
+        onAddEndpoint={onAddEndpoint}
+      />
     </SidebarMenuItem>
   );
 }

@@ -101,6 +101,7 @@ type AppSidebarHandlersArgs = {
   draft: { method: CollectionEndpoint["method"]; url: string };
   selectEndpoint: (endpointId: string) => void;
   addCollection: (collection: Collection) => void;
+  deleteCollection: (collectionId: string) => void;
   addEndpoint: (collectionId: string, endpoint: CollectionEndpoint) => void;
   deleteEndpoint: (collectionId: string, endpointId: string) => void;
   renameEndpoint: (
@@ -131,6 +132,7 @@ export const createAppSidebarHandlers = ({
   draft,
   selectEndpoint,
   addCollection,
+  deleteCollection,
   addEndpoint,
   deleteEndpoint,
   renameEndpoint,
@@ -204,6 +206,19 @@ export const createAppSidebarHandlers = ({
     });
   };
 
+  const handleDeleteCollection = (collectionId: string) => {
+    setHasCollectionInteraction(true);
+    setExpandedCollectionIds((prev) => {
+      const base = hasCollectionInteraction
+        ? prev
+        : defaultExpandedCollectionIds;
+      const next = new Set(base);
+      next.delete(collectionId);
+      return next;
+    });
+    deleteCollection(collectionId);
+  };
+
   const handleDeleteEndpoint = (collectionId: string, endpointId: string) => {
     deleteEndpoint(collectionId, endpointId);
   };
@@ -256,6 +271,7 @@ export const createAppSidebarHandlers = ({
     handleEndpointSelect,
     handleAddCollection,
     handleAddEndpoint,
+    handleDeleteCollection,
     handleDeleteEndpoint,
     handleRenameStart,
     handleRenameSubmit,

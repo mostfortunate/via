@@ -17,6 +17,7 @@ type CollectionListProps = {
   resolvedActiveEndpointId: string | null;
   onCollectionOpenChange: (collection: Collection, open: boolean) => void;
   onCollectionRename: (collection: Collection) => void;
+  onCollectionDelete: (collection: Collection) => void;
   onAddEndpoint: (collection: Collection) => void;
   onEndpointSelect: (collection: Collection, endpointId: string) => void;
   onEndpointRename: (
@@ -33,6 +34,7 @@ export default function CollectionList({
   resolvedActiveEndpointId,
   onCollectionOpenChange,
   onCollectionRename,
+  onCollectionDelete,
   onAddEndpoint,
   onEndpointSelect,
   onEndpointRename,
@@ -55,6 +57,7 @@ export default function CollectionList({
                 name={collection.name}
                 isOpen={isOpen}
                 onRename={() => onCollectionRename(collection)}
+                onDelete={() => onCollectionDelete(collection)}
                 onAddEndpoint={() => onAddEndpoint(collection)}
               />
               <CollapsibleContent>

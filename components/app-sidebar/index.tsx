@@ -23,6 +23,7 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
     activeEndpointId,
     selectEndpoint,
     addCollection,
+    deleteCollection,
     addEndpoint,
     deleteEndpoint,
     renameEndpoint,
@@ -73,6 +74,7 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
     handleEndpointSelect,
     handleAddCollection,
     handleAddEndpoint,
+    handleDeleteCollection,
     handleDeleteEndpoint,
     handleRenameStart,
     handleRenameSubmit,
@@ -83,6 +85,7 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
     draft,
     selectEndpoint,
     addCollection,
+    deleteCollection,
     addEndpoint,
     deleteEndpoint,
     renameEndpoint,
@@ -114,6 +117,9 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
           onCollectionOpenChange={handleCollectionOpenChange}
           onCollectionRename={(collection) =>
             handleCollectionRenameStart(collection.id, collection.name)
+          }
+          onCollectionDelete={(collection) =>
+            handleDeleteCollection(collection.id)
           }
           onAddEndpoint={(collection) => handleAddEndpoint(collection.id)}
           onEndpointSelect={(_, endpointId) => handleEndpointSelect(endpointId)}

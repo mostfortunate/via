@@ -17,6 +17,7 @@ export type WorkspaceContextValue = {
   draftActions: Omit<RequestDraftActions, "draft">;
   selectEndpoint: (endpointId: string) => void;
   addCollection: (collection: Collection) => void;
+  deleteCollection: (collectionId: string) => void;
   addEndpoint: (collectionId: string, endpoint: CollectionEndpoint) => void;
   deleteEndpoint: (collectionId: string, endpointId: string) => void;
   renameEndpoint: (
@@ -44,6 +45,7 @@ export function WorkspaceProvider({
     selectEndpoint: selectEndpointBase,
     getEndpointById,
     addCollection,
+    deleteCollection,
     addEndpoint,
     deleteEndpoint,
     renameEndpoint,
@@ -104,6 +106,7 @@ export function WorkspaceProvider({
     activeEndpointId,
     selectEndpoint,
     addCollection,
+    deleteCollection,
     addEndpoint,
     deleteEndpoint,
     renameEndpoint,

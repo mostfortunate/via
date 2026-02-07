@@ -7,6 +7,7 @@ export type UseCollectionsResult = {
   selectEndpoint: (endpointId: string) => void;
   getEndpointById: (endpointId: string) => CollectionEndpoint | null;
   addCollection: (collection: Collection) => void;
+  deleteCollection: (collectionId: string) => void;
   addEndpoint: (collectionId: string, endpoint: CollectionEndpoint) => void;
   deleteEndpoint: (collectionId: string, endpointId: string) => void;
   renameEndpoint: (
@@ -43,6 +44,28 @@ export function useCollections(
 
   const addCollection = (collection: Collection) => {
     setCollections((prev) => [...prev, collection]);
+  };
+
+  const deleteCollection = (collectionId: string) => {
+    setCollections((prev) => {
+      const targetCollection = prev.find(
+        (collection) => collection.id === collectionId,
+      );
+
+      setActiveEndpointId((prevActive) => {
+        if (!targetCollection || !prevActive) {
+          return prevActive;
+        }
+
+        const shouldClear = targetCollection.endpoints.some(
+          (endpoint) => endpoint.id === prevActive,
+        );
+
+        return shouldClear ? null : prevActive;
+      });
+
+      return prev.filter((collection) => collection.id !== collectionId);
+    });
   };
 
   const addEndpoint = (collectionId: string, endpoint: CollectionEndpoint) => {
@@ -107,6 +130,7 @@ export function useCollections(
     selectEndpoint,
     getEndpointById,
     addCollection,
+    deleteCollection,
     addEndpoint,
     deleteEndpoint,
     renameEndpoint,
