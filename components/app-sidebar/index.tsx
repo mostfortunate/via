@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type ComponentProps } from "react";
-import { cn } from "@/lib/utils";
 import { type Collection } from "@/app/types/models";
 import { useWorkspace } from "@/components/workspace-provider";
 
@@ -11,24 +10,16 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
   SidebarMenuSub,
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 
 import AppSidebarFooter from "@/components/app-sidebar/sidebar-footer";
 import RenameDialog from "@/components/app-sidebar/rename-dialog";
-import CollectionActions from "@/components/app-sidebar/collection-actions";
+import CollectionHeader from "@/components/app-sidebar/collection-row";
 import EndpointItem from "@/components/app-sidebar/endpoint-item";
-
-import { ChevronRight, Folder } from "lucide-react";
 
 export type AppSidebarProps = ComponentProps<typeof Sidebar>;
 export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
@@ -233,33 +224,17 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
               <SidebarGroup className="py-0">
                 <SidebarGroupContent>
                   <SidebarMenu>
-                    <SidebarMenuItem className="group/collection hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex items-center gap-2 rounded-md">
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuButton className="min-w-0 flex-1 hover:bg-transparent hover:text-inherit">
-                          <span className="relative flex size-4 items-center justify-center">
-                            <Folder className="text-muted-foreground size-4 transition-opacity group-hover/collection:opacity-0" />
-                            <ChevronRight
-                              className={cn(
-                                "absolute size-4 opacity-0 transition-opacity group-hover/collection:opacity-100",
-                                isOpen && "rotate-90",
-                              )}
-                            />
-                          </span>
-                          <span className="truncate font-semibold">
-                            {collection.name}
-                          </span>
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-                      <CollectionActions
-                        onRename={() =>
-                          handleCollectionRenameStart(
-                            collection.id,
-                            collection.name,
-                          )
-                        }
-                        onAddEndpoint={() => handleAddEndpoint(collection.id)}
-                      />
-                    </SidebarMenuItem>
+                    <CollectionHeader
+                      name={collection.name}
+                      isOpen={isOpen}
+                      onRename={() =>
+                        handleCollectionRenameStart(
+                          collection.id,
+                          collection.name,
+                        )
+                      }
+                      onAddEndpoint={() => handleAddEndpoint(collection.id)}
+                    />
                     <CollapsibleContent>
                       <SidebarMenuSub className="relative mx-0 translate-x-0 border-l-0 px-0">
                         <span className="bg-sidebar-border pointer-events-none absolute top-0 bottom-0 left-4 z-10 w-px" />
