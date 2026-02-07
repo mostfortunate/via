@@ -187,6 +187,15 @@ export const createAppSidebarHandlers = ({
   };
 
   const handleAddEndpoint = (collectionId: string) => {
+    setHasCollectionInteraction(true);
+    setExpandedCollectionIds((prev) => {
+      const base = hasCollectionInteraction
+        ? prev
+        : defaultExpandedCollectionIds;
+      const next = new Set(base);
+      next.add(collectionId);
+      return next;
+    });
     addEndpoint(collectionId, {
       id: crypto.randomUUID(),
       name: "Untitled",
