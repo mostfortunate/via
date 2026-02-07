@@ -23,3 +23,18 @@ export const getDefaultExpandedCollectionIds = (
 
   return firstCollection ? new Set([firstCollection.id]) : new Set<string>();
 };
+
+export const resolveDefaultEndpointId = (
+  collection: Collection,
+  lastSelectedEndpointId: string | null,
+): string | null => {
+  if (!collection.endpoints.length) {
+    return null;
+  }
+
+  const lastSelectedInCollection = collection.endpoints.find(
+    (endpoint) => endpoint.id === lastSelectedEndpointId,
+  );
+
+  return lastSelectedInCollection?.id ?? collection.endpoints[0]?.id ?? null;
+};

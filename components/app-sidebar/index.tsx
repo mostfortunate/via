@@ -12,6 +12,7 @@ import CollectionList from "@/components/app-sidebar/collection-list";
 import {
   buildEndpointLookup,
   getDefaultExpandedCollectionIds,
+  resolveDefaultEndpointId,
 } from "@/components/app-sidebar/helpers";
 
 export type AppSidebarProps = ComponentProps<typeof Sidebar>;
@@ -56,18 +57,6 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
     ? expandedCollectionIds
     : defaultExpandedCollectionIds;
 
-  const resolveDefaultEndpointId = (collection: Collection) => {
-    if (!collection.endpoints.length) {
-      return null;
-    }
-
-    const lastSelectedInCollection = collection.endpoints.find(
-      (endpoint) => endpoint.id === lastSelectedEndpointId,
-    );
-
-    return lastSelectedInCollection?.id ?? collection.endpoints[0]?.id ?? null;
-  };
-
   const resolvedActiveEndpointId = (() => {
     if (!data.length) {
       return null;
@@ -89,7 +78,7 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
       return null;
     }
 
-    return resolveDefaultEndpointId(targetCollection);
+    return resolveDefaultEndpointId(targetCollection, lastSelectedEndpointId);
   })();
 
   const handleCollectionOpenChange = (
