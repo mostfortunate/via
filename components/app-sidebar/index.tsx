@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ComponentProps } from "react";
+import { type HTTPMethod } from "@/app/types/http";
 import { useWorkspace } from "@/components/workspace-provider";
 
 import { Sidebar, SidebarContent, SidebarRail } from "@/components/ui/sidebar";
@@ -28,7 +29,9 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
     deleteEndpoint,
     renameEndpoint,
     renameCollection,
+    updateEndpointMethod,
     draft,
+    draftActions,
   } = useWorkspace();
   const [expandedCollectionIds, setExpandedCollectionIds] = useState<
     Set<string>
@@ -107,6 +110,30 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
     setCollectionRenameDialogOpen,
   });
 
+  const handleMethodChange = (
+    collection: typeof data[0],
+    endpointId: string,
+    method: HTTPMethod,
+  ) => {
+    updateEndpointMethod(collection.id, endpointId, method);
+
+    // auto-sync: only update the active request method if the endpoint URL matches current address bar URL
+    const endpoint = collection.endpoints.find((ep) => ep.id === endpointId);
+    if (!endpoint) return;
+
+    const baseUrl = collection.baseUrl || "";
+    const path = endpoint.url || "";
+    const endpointUrl =
+      baseUrl.endsWith("/") && path.startsWith("/")
+        ? baseUrl + path.slice(1)
+        : baseUrl + path;
+
+    // only sync if the endpoint URL matches the current draft URL
+    if (endpointUrl === draft.url) {
+      draftActions.setMethod(method);
+    }
+  };
+
   return (
     <Sidebar {...sidebarProps}>
       <SidebarContent className="mt-2 gap-0">
@@ -126,6 +153,7 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
           onEndpointRename={(collection, endpointId, endpointName) =>
             handleRenameStart(collection.id, endpointId, endpointName)
           }
+          onEndpointMethodChange={handleMethodChange}
           onEndpointDelete={(collection, endpointId) =>
             handleDeleteEndpoint(collection.id, endpointId)
           }

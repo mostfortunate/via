@@ -1,6 +1,7 @@
 "use client";
 
 import { type Collection } from "@/app/types/models";
+import { type HTTPMethod } from "@/app/types/http";
 import CollectionRow from "@/components/app-sidebar/collection-row";
 import EndpointItem from "@/components/app-sidebar/endpoint-item";
 import {
@@ -25,6 +26,11 @@ type CollectionListProps = {
     endpointId: string,
     endpointName: string,
   ) => void;
+  onEndpointMethodChange: (
+    collection: Collection,
+    endpointId: string,
+    method: HTTPMethod,
+  ) => void;
   onEndpointDelete: (collection: Collection, endpointId: string) => void;
 };
 
@@ -38,6 +44,7 @@ export default function CollectionList({
   onAddEndpoint,
   onEndpointSelect,
   onEndpointRename,
+  onEndpointMethodChange,
   onEndpointDelete,
 }: CollectionListProps) {
   return collections.map((collection) => {
@@ -71,6 +78,9 @@ export default function CollectionList({
                       onSelect={() => onEndpointSelect(collection, endpoint.id)}
                       onRename={() =>
                         onEndpointRename(collection, endpoint.id, endpoint.name)
+                      }
+                      onMethodChange={(method) =>
+                        onEndpointMethodChange(collection, endpoint.id, method)
                       }
                       onDelete={() => onEndpointDelete(collection, endpoint.id)}
                     />

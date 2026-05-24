@@ -1,22 +1,33 @@
 "use client";
 
+import { type HTTPMethod } from "@/app/types/http";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
 
+const HTTP_METHODS: HTTPMethod[] = ["GET", "POST", "PATCH", "PUT", "DELETE"];
+
 type EndpointActionsProps = {
   onRename: () => void;
+  onMethodChange: (method: HTTPMethod) => void;
   onDelete: () => void;
+  currentMethod: HTTPMethod;
 };
 
 export default function EndpointActions({
   onRename,
+  onMethodChange,
   onDelete,
+  currentMethod,
 }: EndpointActionsProps) {
   return (
     <DropdownMenu>
@@ -41,6 +52,32 @@ export default function EndpointActions({
         >
           Rename
         </DropdownMenuItem>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger onClick={(event) => event.stopPropagation()}>
+            Method
+          </DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            {HTTP_METHODS.map((method) => {
+              const methodColorVar = `--http-method-${method.toLowerCase()}`;
+              return (
+                <DropdownMenuCheckboxItem
+                  key={method}
+                  checked={currentMethod === method}
+                  onCheckedChange={() => {
+                    onMethodChange(method);
+                  }}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                  className="font-mono font-semibold"
+                  style={{ color: `var(${methodColorVar})` }}
+                >
+                  {method}
+                </DropdownMenuCheckboxItem>
+              );
+            })}
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
         <DropdownMenuItem
           variant="destructive"
           onClick={(event) => {

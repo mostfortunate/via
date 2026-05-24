@@ -10,6 +10,8 @@ import {
   type RequestDraftActions,
 } from "@/hooks/use-request-draft";
 
+import { type HTTPMethod } from "@/app/types/http";
+
 export type WorkspaceContextValue = {
   collections: Collection[];
   activeEndpointId: string | null;
@@ -26,6 +28,11 @@ export type WorkspaceContextValue = {
     name: string,
   ) => void;
   renameCollection: (collectionId: string, name: string) => void;
+  updateEndpointMethod: (
+    collectionId: string,
+    endpointId: string,
+    method: HTTPMethod,
+  ) => void;
 };
 
 const WorkspaceContext = createContext<WorkspaceContextValue | null>(null);
@@ -50,6 +57,7 @@ export function WorkspaceProvider({
     deleteEndpoint,
     renameEndpoint,
     renameCollection,
+    updateEndpointMethod,
   } = useCollections(initialCollections);
 
   const {
@@ -111,6 +119,7 @@ export function WorkspaceProvider({
     deleteEndpoint,
     renameEndpoint,
     renameCollection,
+    updateEndpointMethod,
     draft,
     draftActions,
   };

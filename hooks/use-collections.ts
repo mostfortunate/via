@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { type Collection, type CollectionEndpoint } from "@/app/types/models";
 
+import { type HTTPMethod } from "@/app/types/http";
+
 export type UseCollectionsResult = {
   collections: Collection[];
   activeEndpointId: string | null;
@@ -16,6 +18,11 @@ export type UseCollectionsResult = {
     name: string,
   ) => void;
   renameCollection: (collectionId: string, name: string) => void;
+  updateEndpointMethod: (
+    collectionId: string,
+    endpointId: string,
+    method: HTTPMethod,
+  ) => void;
 };
 
 export function useCollections(
@@ -124,6 +131,25 @@ export function useCollections(
     );
   };
 
+  const updateEndpointMethod = (
+    collectionId: string,
+    endpointId: string,
+    method: HTTPMethod,
+  ) => {
+    setCollections((prev) =>
+      prev.map((collection) =>
+        collection.id === collectionId
+          ? {
+              ...collection,
+              endpoints: collection.endpoints.map((endpoint) =>
+                endpoint.id === endpointId ? { ...endpoint, method } : endpoint,
+              ),
+            }
+          : collection,
+      ),
+    );
+  };
+
   return {
     collections,
     activeEndpointId,
@@ -135,5 +161,6 @@ export function useCollections(
     deleteEndpoint,
     renameEndpoint,
     renameCollection,
+    updateEndpointMethod,
   };
 }
