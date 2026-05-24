@@ -111,7 +111,7 @@ export default function AppSidebar({ ...sidebarProps }: AppSidebarProps) {
   });
 
   const handleMethodChange = (
-    collection: typeof data[0],
+    collection: (typeof data)[0],
     endpointId: string,
     method: HTTPMethod,
   ) => {
